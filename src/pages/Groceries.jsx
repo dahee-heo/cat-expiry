@@ -2,6 +2,7 @@ import React from 'react'
 import { Edit, KeyboardArrowUp, KeyboardArrowDown, RemoveCircle } from '@material-ui/icons'
 
 const Groceries = () => {
+
   return (
     <main>
       <form>
