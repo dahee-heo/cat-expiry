@@ -46,7 +46,7 @@ const Items = () => {
               <td>2022-09-23</td>
               <td>2023-09-23</td>
               <td>
-                <button onClick><span><Edit /></span></button>
+                <button><span><Edit /></span></button>
               </td>
               <td>
                 <button><span><RemoveCircle /></span></button>
@@ -58,7 +58,7 @@ const Items = () => {
               <td>2022-07-10</td>
               <td>2023-01-10</td>
               <td>
-                <button onClick><span><Edit /></span></button>
+                <button><span><Edit /></span></button>
               </td>
               <td>
                 <button><span><RemoveCircle /></span></button>
@@ -70,7 +70,7 @@ const Items = () => {
               <td>2022-06-19</td>
               <td>2023-06-19</td>
               <td>
-                <button onClick><span><Edit /></span></button>
+                <button><span><Edit /></span></button>
               </td>
               <td>
                 <button><span><RemoveCircle /></span></button>
@@ -82,7 +82,7 @@ const Items = () => {
               <td>2022-08-20</td>
               <td>2025-08-20</td>
               <td>
-                <button onClick><span><Edit /></span></button>
+                <button><span><Edit /></span></button>
               </td>
               <td>
                 <button><span><RemoveCircle /></span></button>
