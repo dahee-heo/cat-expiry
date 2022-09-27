@@ -4,12 +4,14 @@ import Home from './pages/Home';
 import Items from './pages/Items';
 import Groceries from './pages/Groceries';
 import Header from './components/Header';
+import { db } from './firebase.js';
+import { addDoc, collection } from '@firebase/firestore';
+
 
 function App() {
-
-
   return (
     <>
+      <button onClick={addData}>추가</button>
       <BrowserRouter>
         <Header></Header>
         <Routes>
