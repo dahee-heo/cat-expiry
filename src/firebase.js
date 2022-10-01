@@ -1,10 +1,10 @@
 import { initializeApp } from '@firebase/app';
 import { getAuth } from '@firebase/auth';
-import { getFirestore } from '@firebase/firestore';
+// import { getFirestore } from '@firebase/firestore';
 import firebase from 'firebase/compat/app';
 // import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-
+import { getDatabase } from 'firebase/database';
 
 // import dotenv from 'dotenv'
 // dotenv.config()
@@ -25,7 +25,7 @@ const firebaseConfig = {
 
 // firebase.initializeApp(firebaseConfig);
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app)
+export const db = getDatabase(app)
 
 // const firestore = firebase.firestore();
 // // export const authService = firebase.auth();
