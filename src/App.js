@@ -9,15 +9,13 @@ import Header from './components/Header';
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Header></Header>
-        <Routes>
-          <Route path='/' element={<Home></Home>}></Route>
-          <Route path='/home' element={<Home></Home>}></Route>
-          <Route path='/items' element={<Items></Items>}></Route>
-          <Route path='/groceries' element={<Groceries></Groceries>}></Route>
-        </Routes>
-      </BrowserRouter>
+      <Header></Header>
+      <Routes>
+        <Route path='/' element={<Home></Home>}></Route>
+        <Route path='/home' element={<Home></Home>}></Route>
+        <Route path='/items' element={<Items></Items>}></Route>
+        <Route path='/groceries' element={<Groceries></Groceries>}></Route>
+      </Routes>
     </>
   );
 }

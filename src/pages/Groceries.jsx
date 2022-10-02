@@ -16,16 +16,6 @@ const Groceries = () => {
   const [groceriesData, setGroceriesData] = useState([])
 
   useEffect(() => {
-    // const query = ref(db, 'groceries');
-    // return onValue(query, (snapshot) => {
-    //   const data = snapshot.val();
-
-    //   if (snapshot.exists()) {
-    //     Object.values(data).map((grocery) => {
-    //       setGroceries((groceries) => [...groceries, grocery])
-    //     });
-    //   }
-    // })
     groceriesRead()
   }, [])
 
@@ -36,7 +26,6 @@ const Groceries = () => {
     })
   }
 
-  // const groceriesCollectionRef = collection(db, 'groceries')
 
   const databaseUrl = 'https://cat-expiry-default-rtdb.firebaseio.com/groceries.json'
 
@@ -49,6 +38,7 @@ const Groceries = () => {
       .catch((error) => {
         console.log('The write failed...')
       });
+    groceriesRead()
   }
 
   async function groceriesRead() {
@@ -61,32 +51,11 @@ const Groceries = () => {
         }
         setGroceriesData(groceries)
       });
-    // console.log(getGroceriesData)
-    // const { data } = getGroceriesData
-    // console.log('data: ', data);
-    // console.log('groceriesData: ', groceriesData);
   }
 
 
 
 
-  // async function getData() {
-  //   const q = query(collection(db, "groceries"));
-  //   const querySnapshot = await getDocs(q);
-  //   console.log('querySnapshot: ', querySnapshot);
-  //   const newData = querySnapshot.docs.map(doc => ({
-  //     ...doc.data()
-  //   }))
-  //   setGroceries(newData)
-  //   console.log('groceries: ', groceries);
-  //   // querySnapshot.forEach((doc) => {
-  //   //   console.log(doc.id, " => ", doc.data());
-  //   // });
-  // }
-
-  // useEffect(() => {
-  //   getData()
-  // }, [])
 
 
   return (
@@ -142,42 +111,6 @@ const Groceries = () => {
                 )
               })
             }
-            <tr>
-              <td><input type='checkbox' /></td>
-              <td>조공 츄르</td>
-              <td>2022-09-23</td>
-              <td><input type='date' defaultValue='2023-09-23' /></td>
-              <td>
-                <button><span><RemoveCircle /></span></button>
-              </td>
-            </tr>
-            <tr>
-              <td><input type='checkbox' /></td>
-              <td>오메가3</td>
-              <td>2022-07-10</td>
-              <td><input type='date' defaultValue='2023-01-10' /></td>
-              <td>
-                <button><span><RemoveCircle /></span></button>
-              </td>
-            </tr>
-            <tr>
-              <td><input type='checkbox' /></td>
-              <td>템테이션</td>
-              <td>2022-06-19</td>
-              <td><input type='date' defaultValue='2023-06-19' /></td>
-              <td>
-                <button><span><RemoveCircle /></span></button>
-              </td>
-            </tr>
-            <tr>
-              <td><input type='checkbox' /></td>
-              <td>로얄캐닌 헤파틱</td>
-              <td>2022-08-20</td>
-              <td><input type='date' defaultValue='2025-08-20' /></td>
-              <td>
-                <button><span><RemoveCircle /></span></button>
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>
