@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Edit, KeyboardArrowUp, KeyboardArrowDown, RemoveCircle } from '@material-ui/icons'
 import { add, format } from 'date-fns'
 import axios from 'axios'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { groceriesGet, groceriesReadSelector, groceriesState } from '../states/groceriesState'
 
 const Groceries = () => {
   const date = new Date();
@@ -13,11 +14,14 @@ const Groceries = () => {
     expire: format(add(date, { months: 2 }), 'yyyy-MM-dd'),
   })
 
-  const [groceriesData, setGroceriesData] = useState([])
+  const [groceriesData, setGroceriesData] = useRecoilState(groceriesState)
+  const groceriesGetList = useRecoilValue(groceriesReadSelector)
+  console.log('groceriesGetList: ', groceriesGetList);
 
-  useEffect(() => {
-    groceriesRead()
-  }, [])
+
+  // useEffect(() => {
+  //   groceriesRead()
+  // }, [])
 
   const changeHandle = function (e) {
     setInputData({
@@ -26,16 +30,15 @@ const Groceries = () => {
     })
   }
 
-
-  const databaseUrl = 'https://cat-expiry-default-rtdb.firebaseio.com/groceries.json'
+  const url = process.env.REACT_APP_DATABASE_URL;
 
   const groceriesCreate = async function (e) {
     e.preventDefault();
 
-    await axios.post(databaseUrl, inputData)
+    await axios.post(`${url}/groceries.json`, inputData)
       .then(() => {
         console.log('Data saved successfully!')
-        groceriesRead()
+        // groceriesRead()
       })
       .catch((error) => {
         console.log('The write failed...')
@@ -44,31 +47,19 @@ const Groceries = () => {
 
   }
 
-  const groceriesRead = async function () {
-    const getGroceriesData = await axios.get(databaseUrl)
-      .then((response) => {
-        console.log('response: ', response);
-        const groceries = [];
-        for (const key in response.data) {
-
-          //firebase key 만들어주기
-          const grocery = response.data[key]
-          grocery.key = key
-          groceries.push(grocery)
-        }
-
-        console.log('groceries: ', groceries);
-        setGroceriesData(groceries)
-      });
-  }
+  // const groceriesRead = async function () {
+  //   // setGroceriesData(groceriesGetList)
+  //   // console.log('groceriesData: ', groceriesData);
+  //   // groceriesGetList
+  //   console.log('groceriesGetList: ', groceriesGetList);
+  // }
 
 
   async function groceriesDelete(key) {
-    const url = 'https://cat-expiry-default-rtdb.firebaseio.com/groceries/' + key + '.json'
-    await axios.delete(url)
+    await axios.delete(`${url}/groceries/${key}.json`)
       .then((response) => {
         console.log('Done delete', response)
-        groceriesRead();
+        // groceriesRead();
       }).catch((errer) => {
         console.log(errer)
       })
@@ -76,12 +67,11 @@ const Groceries = () => {
 
 
   async function expireUpdate(grocery) {
-    const url = 'https://cat-expiry-default-rtdb.firebaseio.com/groceries/' + grocery.key + '.json'
     const updateData = {
       ...grocery,
       expire: grocery.expire
     }
-    return await axios.patch(url, updateData)
+    return await axios.patch(`${url}/groceries/${grocery.key}.json`, updateData)
     // .then((response) => {
     //   groceriesRead()
     // })
@@ -130,8 +120,7 @@ const Groceries = () => {
           </thead>
           <tbody>
             {
-              groceriesData.map((grocery) => {
-                // console.log('grocery: ', grocery.key);
+              groceriesGetList.map((grocery) => {
 
                 return (
                   <tr key={grocery.key}>

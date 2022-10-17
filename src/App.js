@@ -10,7 +10,7 @@ import { Suspense } from 'react';
 function App() {
   return (
     <>
-      <Suspense>
+      <Suspense fallback={<div>Loading...</div>}>
         <Header></Header>
         <Routes>
           <Route path='/' element={<Home></Home>}></Route>
