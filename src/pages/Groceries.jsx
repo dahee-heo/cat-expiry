@@ -1,95 +1,38 @@
 import React, { useEffect, useState } from 'react'
-import { Edit, KeyboardArrowUp, KeyboardArrowDown, RemoveCircle } from '@material-ui/icons'
+import { Edit, KeyboardArrowUp, KeyboardArrowDown, RemoveCircle, } from '@material-ui/icons'
+import { FormControl, Input } from '@material-ui/core'
 import { add, format } from 'date-fns'
 import axios from 'axios'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { groceriesGet, groceriesReadSelector, groceriesState } from '../states/groceriesState'
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil'
+import { checkedState, getGroceries, groceriesState, itemUpdateSelector, postGroceries } from '../states/testState'
 
 const Groceries = () => {
-  const date = new Date();
 
   const [inputData, setInputData] = useState({
     name: null,
-    enter: format(date, 'yyyy-MM-dd'),
-    expire: format(add(date, { months: 2 }), 'yyyy-MM-dd'),
+    enter: format(new Date(), 'yyyy-MM-dd'),
+    expire: format(add(new Date(), { months: 2 }), 'yyyy-MM-dd'),
   })
-
-  const [groceriesData, setGroceriesData] = useRecoilState(groceriesState)
-  const groceriesGetList = useRecoilValue(groceriesReadSelector)
-  console.log('groceriesGetList: ', groceriesGetList);
-
-
-  // useEffect(() => {
-  //   groceriesRead()
-  // }, [])
-
-  const changeHandle = function (e) {
-    setInputData({
-      ...inputData,
-      [e.target.name]: e.target.value
-    })
-  }
+  const [groceries, setGroceries] = useRecoilState(groceriesState)
+  const [post, setPost] = useRecoilState(postGroceries)
+  const getData = useRecoilValue(getGroceries)
 
   const url = process.env.REACT_APP_DATABASE_URL;
-
-  const groceriesCreate = async function (e) {
-    e.preventDefault();
-
-    await axios.post(`${url}/groceries.json`, inputData)
-      .then(() => {
-        console.log('Data saved successfully!')
-        // groceriesRead()
-      })
-      .catch((error) => {
-        console.log('The write failed...')
-      });
-
-
-  }
-
-  // const groceriesRead = async function () {
-  //   // setGroceriesData(groceriesGetList)
-  //   // console.log('groceriesData: ', groceriesData);
-  //   // groceriesGetList
-  //   console.log('groceriesGetList: ', groceriesGetList);
-  // }
-
-
-  async function groceriesDelete(key) {
-    await axios.delete(`${url}/groceries/${key}.json`)
-      .then((response) => {
-        console.log('Done delete', response)
-        // groceriesRead();
-      }).catch((errer) => {
-        console.log(errer)
-      })
-  }
-
-
-  async function expireUpdate(grocery) {
-    const updateData = {
-      ...grocery,
-      expire: grocery.expire
-    }
-    return await axios.patch(`${url}/groceries/${grocery.key}.json`, updateData)
-    // .then((response) => {
-    //   groceriesRead()
-    // })
-  }
-
-
-
-
-
-
+  useEffect(() => {
+    console.log(getData)
+  }, [])
   return (
     <main>
-      <form onSubmit={groceriesCreate}>
-        <input type="text" name='name' onChange={changeHandle} />
-        <button><Edit /></button>
-      </form>
+      <FormControl>
+        <Input type="text" name='name' onChange={(e) => { setInputData({ ...inputData, name: e.target.value }) }} />
+        <button onClick={e => {
+          e.preventDefault()
+          setGroceries(inputData)
+        }}><Edit /></button>
+      </FormControl>
 
       <div>
+
         <table>
           <thead>
             <tr>
@@ -120,11 +63,12 @@ const Groceries = () => {
           </thead>
           <tbody>
             {
-              groceriesGetList.map((grocery) => {
+              getData.map((grocery) => {
 
                 return (
                   <tr key={grocery.key}>
-                    <td><input type='checkbox' /></td>
+                    <td><input type='checkbox'
+                    /></td>
                     <td>{grocery.name}</td>
                     <td>{grocery.enter}</td>
                     <td><input
@@ -132,11 +76,10 @@ const Groceries = () => {
                       defaultValue={grocery.expire}
                       onChange={(e) => {
                         grocery.expire = e.target.value;
-                        expireUpdate(grocery)
                       }}
                     /></td>
                     <td>
-                      <button onClick={() => groceriesDelete(grocery.key)}><span><RemoveCircle /></span></button>
+                      <button ><span><RemoveCircle /></span></button>
                     </td>
                   </tr>
                 )
@@ -145,7 +88,7 @@ const Groceries = () => {
           </tbody>
         </table>
       </div>
-    </main>
+    </main >
   )
 }
 

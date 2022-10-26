@@ -1,7 +1,54 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { SearchOutlined, Edit, KeyboardArrowUp, KeyboardArrowDown, RemoveCircle } from '@material-ui/icons'
+import axios from 'axios'
 
 const Items = () => {
+
+  const [itemsData, setItemsData] = useState([])
+
+  useEffect(() => {
+    itemsRead()
+  }, [])
+  const url = process.env.REACT_APP_DATABASE_URL;
+
+  const itemsRead = async () => {
+    try {
+      const itemsData = await axios.get(`${url}/items.json`)
+      console.log(itemsData)
+      const itemsList = [];
+      for (const key in itemsData.data) {
+        const item = itemsData.data[key];
+        item.key = key;
+        itemsList.push(item);
+      }
+      setItemsData(itemsList)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const itemsDelete = async (key) => {
+    try {
+      const res = await axios.delete(`${url}/items/${key}.json`)
+      itemsRead()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const itemsUpdate = async (grocery) => {
+    try {
+      const updateData = {
+        ...grocery,
+        expire: grocery.expire,
+      }
+      const res = await axios.patch(`${url}/items/${grocery.key}.json`)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
   return (
     <main>
       <form>
@@ -40,7 +87,25 @@ const Items = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
+            {
+              itemsData.map((grocery, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{grocery.name}</td>
+                    <td>{grocery.enter}</td>
+                    <td>{grocery.expire}</td>
+                    <td>
+                      <button><span><Edit /></span></button>
+                    </td>
+                    <td>
+                      <button><span><RemoveCircle /></span></button>
+                    </td>
+                  </tr>
+                )
+              })
+            }
+            {/* <tr>
               <td>1</td>
               <td>조공 츄르</td>
               <td>2022-09-23</td>
@@ -87,7 +152,7 @@ const Items = () => {
               <td>
                 <button><span><RemoveCircle /></span></button>
               </td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </div>
