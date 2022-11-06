@@ -2,44 +2,42 @@ import axios from "axios";
 import { format, add } from "date-fns";
 import { atom, selector, selectorFamily } from "recoil";
 
+
 export const groceriesState = atom({
-  key: 'grocieries',
-  default: {
-    name: null,
-    enter: null,
-    expire: null,
-  }
+  key: 'groceriesState',
+  default: []
+  // {
+  //   name: null,
+  //   enter: null,
+  //   expire: null,
+  //   done: null,
+  // }
 })
 
-export const postGroceries = selector({
-  key: 'postGroceries',
-  get: async ({ get }) => {
-    const groceriesData = get(groceriesState)
-    try {
-      const url = process.env.REACT_APP_DATABASE_URL;
-      const res = await axios.post(`${url}/groceries.json`, groceriesData)
-      console.log('create done')
-      return res;
-    } catch (error) {
-      console.log(error)
-    }
-  }
-})
+// const url = process.env.REACT_APP_DATABASE_URL
 
-export const getGroceries = selector({
-  key: 'getGroceries',
-  get: async ({ get }) => {
-    const groceriesData = get(groceriesState)
-    try {
-      const url = process.env.REACT_APP_DATABASE_URL;
-      const res = await axios.get(`${url}/groceries.json`)
-      const groceries = [];
-      for (const key in res.data) {
-        groceries.push(res.data[key])
-      }
-      return groceries;
-    } catch (error) {
-      console.log(error)
-    }
-  }
-})
+// export const getGroceries = selector({
+//   key: 'getGroceries',
+//   get: async () => {
+//     const response = await axios.get(`${url}/groceries.json`);
+//     const groceries = []
+//     for (const key in response.data) {
+//       const grocery = response.data[key]
+//       grocery.key = key
+//       groceries.push(grocery)
+//     }
+//     return groceries;
+//   }
+// });
+
+// export const addGroceries = selectorFamily({
+//   key: 'addGroceries',
+//   // get: async ({ get }) => {
+//   //   const grocereis = get(groceries)
+//   //   await axios.post(`${url}/groceries.json`, grocereis)
+//   // },
+//   set: (inputData) => async ({ get, set }, newValue) => {
+//     const groceries = get(groceries)
+//     set(newValue = inputData)
+//   }
+// })

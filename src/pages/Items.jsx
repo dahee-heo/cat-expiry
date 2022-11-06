@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { SearchOutlined, Edit, KeyboardArrowUp, KeyboardArrowDown, RemoveCircle } from '@material-ui/icons'
 import axios from 'axios'
+// import { groceries } from '../states/groceriesState'
+import { useRecoilState } from 'recoil'
 
 const Items = () => {
 
@@ -9,18 +11,15 @@ const Items = () => {
   useEffect(() => {
     itemsRead()
   }, [])
+
   const url = process.env.REACT_APP_DATABASE_URL;
+
 
   const itemsRead = async () => {
     try {
-      const itemsData = await axios.get(`${url}/items.json`)
-      console.log(itemsData)
+      const response = await axios.get(`${url}/items.json`)
       const itemsList = [];
-      for (const key in itemsData.data) {
-        const item = itemsData.data[key];
-        item.key = key;
-        itemsList.push(item);
-      }
+      itemsList.push(response)
       setItemsData(itemsList)
     } catch (error) {
       console.log(error)
