@@ -3,37 +3,33 @@ import { SearchOutlined, Edit, KeyboardArrowUp, KeyboardArrowDown, RemoveCircle 
 import axios from 'axios'
 // import { groceries } from '../states/groceriesState'
 import { useRecoilState } from 'recoil'
+import { itemsRead, itemsDelete } from '../service/items.service'
 
 const Items = () => {
 
   const [itemsData, setItemsData] = useState([])
 
   useEffect(() => {
-    itemsRead()
-  }, [])
+    loadItems()
+  }, [itemsData])
 
   const url = process.env.REACT_APP_DATABASE_URL;
 
-
-  const itemsRead = async () => {
+  const loadItems = async () => {
     try {
-      const response = await axios.get(`${url}/items.json`)
+      const response = await itemsRead()
       const itemsList = [];
-      itemsList.push(response)
+      for (const key in response.data) {
+        const item = response.data[key]
+        item.key = key
+        itemsList.push(item)
+      }
       setItemsData(itemsList)
     } catch (error) {
       console.log(error)
     }
   }
 
-  const itemsDelete = async (key) => {
-    try {
-      const res = await axios.delete(`${url}/items/${key}.json`)
-      itemsRead()
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   const itemsUpdate = async (grocery) => {
     try {
@@ -88,6 +84,7 @@ const Items = () => {
           <tbody>
             {
               itemsData.map((grocery, index) => {
+                // console.log('grocery: ', grocery);
                 return (
                   <tr key={index}>
                     <td>{index + 1}</td>
@@ -98,7 +95,7 @@ const Items = () => {
                       <button><span><Edit /></span></button>
                     </td>
                     <td>
-                      <button><span><RemoveCircle /></span></button>
+                      <button onClick={() => itemsDelete(grocery)}><span><RemoveCircle /></span></button>
                     </td>
                   </tr>
                 )

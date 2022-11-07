@@ -7,10 +7,11 @@ import {
 } from '@material-ui/icons'
 import { FormControl, Input } from '@material-ui/core'
 import { add, format } from 'date-fns'
-import axios from 'axios'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 import { groceriesState } from '../states/groceriesState'
-import { addItems, itemsState } from '../states/itemsState'
+import { itemsState } from '../states/itemsState'
+import { itemsDelete, itemsRead, itemsUpdate } from '../service/items.service'
+import { groceriesCreate, groceriesDelete, groceriesRead, groceriesUpdate } from '../service/groceries.service'
 
 const Groceries = () => {
 
@@ -29,13 +30,6 @@ const Groceries = () => {
     loadGroceries()
   }, [grocereisData])
 
-  useEffect(() => {
-    console.log(grocereisData)
-  }, [])
-
-
-  const url = process.env.REACT_APP_DATABASE_URL;
-
 
   const handleInput = e => {
     setInputData({ ...inputData, name: e.target.value })
@@ -43,65 +37,62 @@ const Groceries = () => {
 
 
   const loadGroceries = async () => {
-    try {
-      const response = await axios.get(`${url}/groceries.json`)
+    const promises = [];
+
+    promises[0] = new Promise(function (resolve, reject) {
+      groceriesRead().then((response) => {
+        resolve(response.data)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+    promises[1] = new Promise(function (resolve, reject) {
+      itemsRead().then((response) => {
+        // let count = 0;
+        // for (const key in response.data) {
+        //   const item = response.data[key];
+        // }
+        resolve(response.data)
+      }).catch((error) => {
+        reject(error);
+      })
+    })
+    Promise.all(promises).then((result) => {
+      const groceriesPromise = result[0]
+      const itemsPromise = result[1] || [];
       const groceries = []
-      for (const key in response.data) {
-        const grocery = response.data[key]
-        grocery.key = key
+
+      for (const key in groceriesPromise) {
+        const grocery = groceriesPromise[key];
+        grocery.key = key;
+        grocery.hasItem = itemsPromise[key]
         groceries.push(grocery)
+        setGroceriesData([...groceries])
       }
-      setGroceriesData([...groceries])
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-
-  const addGroceries = async (e) => {
-    try {
-      const response = await axios.post(`${url}/groceries.json`, inputData)
-    } catch (error) {
+    }).catch(error => {
       console.log(error)
-    }
+    })
   }
 
 
-  const deleteGrocereis = async (key) => {
-    try {
-      await axios.delete(`${url}/groceries/${key}.json`)
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
-
-  const editGroceries = async (grocery, e) => {
+  const editExpire = async (grocery, e) => {
     try {
       const editExpire = {
         expire: e.target.value
       }
-      const response = await axios.patch(`${url}/groceries/${grocery.key}.json`, editExpire)
+      await groceriesUpdate(grocery, editExpire)
       loadGroceries()
     } catch (error) {
       console.log(error);
     }
   }
 
-
-
-  const addItems = async (e) => {
-    try {
-      const response = await axios.post(`${url}/groceries.json`, inputData)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   const onChange = async (e, grocery) => {
-    if (e.target.checked === true) {
-
-      // response = await axios.post(`${url}/groceries.json`, inputData)
+    if (e.target.checked) {
+      itemsUpdate(grocery)
+    } else {
+      itemsDelete(grocery)
     }
   }
 
@@ -111,8 +102,8 @@ const Groceries = () => {
   return (
     <main>
       <FormControl>
-        <Input type="text" name='name' onChange={(e) => handleInput(e)} />
-        <button onClick={addGroceries}><Edit /></button>
+        <Input type="text" placeholder='식료품명을 입력해주세요.' name='name' onChange={(e) => handleInput(e)} />
+        <button onClick={groceriesCreate}><Edit /></button>
       </FormControl>
 
       <div>
@@ -152,8 +143,8 @@ const Groceries = () => {
                   <tr key={grocery.key}>
                     <td>
                       <input type='checkbox'
-                        checked={grocery.done}
-
+                        checked={grocery.hasItem}
+                        onChange={(e) => onChange(e, grocery)}
                       />
                     </td>
                     <td>{grocery.name}</td>
@@ -162,13 +153,13 @@ const Groceries = () => {
                       type='date'
                       defaultValue={grocery.expire}
                       onChange={(e) => {
-                        editGroceries(grocery, e)
+                        editExpire(grocery, e)
                       }
                       }
                     /></td>
                     <td>
                       <button
-                        onClick={() => deleteGrocereis(grocery.key)}
+                        onClick={() => groceriesDelete(grocery.key)}
                       ><span><RemoveCircle /></span></button>
                     </td>
                   </tr>
