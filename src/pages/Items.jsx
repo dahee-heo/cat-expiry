@@ -4,10 +4,13 @@ import axios from 'axios'
 // import { groceries } from '../states/groceriesState'
 import { useRecoilState } from 'recoil'
 import { itemsRead, itemsDelete } from '../service/items.service'
+import { DeleteBtn, FormStyle, MainStyle, TableStyle, EditBtn } from '../components/styled'
+import { EditSharp, KeyboardArrowDownSharp, KeyboardArrowUpSharp, RemoveCircleOutline } from '@mui/icons-material'
 
 const Items = () => {
 
   const [itemsData, setItemsData] = useState([])
+
 
   useEffect(() => {
     loadItems()
@@ -45,36 +48,36 @@ const Items = () => {
 
 
   return (
-    <main>
-      <form>
-        <input type="text" name='name' />
+    <MainStyle>
+      <FormStyle>
+        <input type="text" name='name' placeholder='검색어를 입력해주세요.' />
         <button><SearchOutlined /></button>
-      </form>
+      </FormStyle>
 
       <div>
-        <table>
+        <TableStyle>
           <thead>
             <tr>
-              <th>Move</th>
+              <th>No</th>
               <th>
-                <span>
+                <span className='title-names'>
                   Name
-                  <span><KeyboardArrowUp /></span>
-                  <span><KeyboardArrowDown /></span>
+                  <span><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></span>
+                  <span><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></span>
                 </span>
               </th>
               <th>
-                <span>
+                <span className='title-names'>
                   Enter
-                  <span><KeyboardArrowUp /></span>
-                  <span><KeyboardArrowDown /></span>
+                  <span><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></span>
+                  <span><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></span>
                 </span>
               </th>
               <th>
-                <span>
+                <span className='title-names'>
                   Expire
-                  <span><KeyboardArrowUp /></span>
-                  <span><KeyboardArrowDown /></span>
+                  <span><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></span>
+                  <span><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></span>
                 </span>
               </th>
               <th>Edit</th>
@@ -92,68 +95,20 @@ const Items = () => {
                     <td>{grocery.enter}</td>
                     <td>{grocery.expire}</td>
                     <td>
-                      <button><span><Edit /></span></button>
+                      <EditBtn><span><EditSharp /></span></EditBtn>
                     </td>
                     <td>
-                      <button onClick={() => itemsDelete(grocery)}><span><RemoveCircle /></span></button>
+                      <DeleteBtn onClick={() => itemsDelete(grocery)}><span><RemoveCircleOutline /></span></DeleteBtn>
                     </td>
                   </tr>
                 )
               })
             }
-            {/* <tr>
-              <td>1</td>
-              <td>조공 츄르</td>
-              <td>2022-09-23</td>
-              <td>2023-09-23</td>
-              <td>
-                <button><span><Edit /></span></button>
-              </td>
-              <td>
-                <button><span><RemoveCircle /></span></button>
-              </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>오메가3</td>
-              <td>2022-07-10</td>
-              <td>2023-01-10</td>
-              <td>
-                <button><span><Edit /></span></button>
-              </td>
-              <td>
-                <button><span><RemoveCircle /></span></button>
-              </td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>템테이션</td>
-              <td>2022-06-19</td>
-              <td>2023-06-19</td>
-              <td>
-                <button><span><Edit /></span></button>
-              </td>
-              <td>
-                <button><span><RemoveCircle /></span></button>
-              </td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>로얄캐닌 헤파틱</td>
-              <td>2022-08-20</td>
-              <td>2025-08-20</td>
-              <td>
-                <button><span><Edit /></span></button>
-              </td>
-              <td>
-                <button><span><RemoveCircle /></span></button>
-              </td>
-            </tr> */}
           </tbody>
-        </table>
+        </TableStyle>
       </div>
 
-    </main>
+    </MainStyle>
   )
 }
 

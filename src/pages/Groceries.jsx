@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Edit,
-  KeyboardArrowUp,
-  KeyboardArrowDown,
-  RemoveCircle,
-} from '@material-ui/icons'
-import { FormControl, Input } from '@material-ui/core'
 import { add, format } from 'date-fns'
 import { useRecoilState } from 'recoil'
 import { groceriesState } from '../states/groceriesState'
 import { itemsState } from '../states/itemsState'
 import { itemsDelete, itemsRead, itemsUpdate } from '../service/items.service'
 import { groceriesCreate, groceriesDelete, groceriesRead, groceriesUpdate } from '../service/groceries.service'
+import { DeleteBtn, FormStyle, MainStyle, OutlinedInput, TableStyle } from '../components/styled.js'
+import { EditSharp, KeyboardArrowDownSharp, KeyboardArrowUpSharp, RemoveCircleOutline } from '@mui/icons-material'
+import { Pagination } from '@mui/material'
 
 const Groceries = () => {
 
@@ -100,37 +96,36 @@ const Groceries = () => {
 
 
   return (
-    <main>
-      <FormControl>
-        <Input type="text" placeholder='식료품명을 입력해주세요.' name='name' onChange={(e) => handleInput(e)} />
-        <button onClick={groceriesCreate}><Edit /></button>
-      </FormControl>
+    <MainStyle>
+      <FormStyle >
+        <input type="text" placeholder='식료품명을 입력해주세요.' name='name' onChange={(e) => handleInput(e)} />
+        <button onClick={groceriesCreate}><EditSharp /></button>
+      </FormStyle>
 
       <div>
-
-        <table>
+        <TableStyle>
           <thead>
             <tr>
               <th>Move</th>
               <th>
-                <span>
+                <span className='title-names'>
                   Name
-                  <span><KeyboardArrowUp /></span>
-                  <span><KeyboardArrowDown /></span>
+                  <span><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></span>
+                  <span><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></span>
                 </span>
               </th>
               <th>
-                <span>
+                <span className='title-names'>
                   Enter
-                  <span><KeyboardArrowUp /></span>
-                  <span><KeyboardArrowDown /></span>
+                  <span><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></span>
+                  <span><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></span>
                 </span>
               </th>
               <th>
-                <span>
+                <span className='title-names'>
                   Expire
-                  <span><KeyboardArrowUp /></span>
-                  <span><KeyboardArrowDown /></span>
+                  <span><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></span>
+                  <span><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></span>
                 </span>
               </th>
               <th>Del</th>
@@ -158,18 +153,21 @@ const Groceries = () => {
                       }
                     /></td>
                     <td>
-                      <button
+                      <DeleteBtn
                         onClick={() => groceriesDelete(grocery.key)}
-                      ><span><RemoveCircle /></span></button>
+                      ><span><RemoveCircleOutline /></span></DeleteBtn>
                     </td>
                   </tr>
                 )
               })
             }
           </tbody>
-        </table>
+        </TableStyle>
+        <div>
+          <Pagination count={10} shape="rounded" />
+        </div>
       </div>
-    </main >
+    </MainStyle >
   )
 }
 
