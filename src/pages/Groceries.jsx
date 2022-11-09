@@ -32,6 +32,8 @@ const Groceries = () => {
   }
 
 
+
+
   const loadGroceries = async () => {
     const promises = [];
 
@@ -97,9 +99,11 @@ const Groceries = () => {
 
   return (
     <MainStyle>
-      <FormStyle >
+      <FormStyle onSubmit={event => {
+        event.preventDefault();
+      }}>
         <input type="text" placeholder='식료품명을 입력해주세요.' name='name' onChange={(e) => handleInput(e)} />
-        <button onClick={groceriesCreate}><EditSharp /></button>
+        <button onClick={() => groceriesCreate(inputData)}><EditSharp /></button>
       </FormStyle>
 
       <div>

@@ -10,6 +10,7 @@ import { EditSharp, KeyboardArrowDownSharp, KeyboardArrowUpSharp, RemoveCircleOu
 const Items = () => {
 
   const [itemsData, setItemsData] = useState([])
+  const [searchText, setSearchText] = useState('')
 
 
   useEffect(() => {
@@ -24,6 +25,7 @@ const Items = () => {
       const itemsList = [];
       for (const key in response.data) {
         const item = response.data[key]
+        if (item.name.indexOf(searchText) === -1) continue;
         item.key = key
         itemsList.push(item)
       }
@@ -49,8 +51,10 @@ const Items = () => {
 
   return (
     <MainStyle>
-      <FormStyle>
-        <input type="text" name='name' placeholder='검색어를 입력해주세요.' />
+      <FormStyle onSubmit={event => {
+        event.preventDefault();
+      }}>
+        <input type="text" name='name' placeholder='검색어를 입력해주세요.' onChange={e => setSearchText(e.target.value)} />
         <button><SearchOutlined /></button>
       </FormStyle>
 
