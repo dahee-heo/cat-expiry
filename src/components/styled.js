@@ -65,6 +65,15 @@ const TableStyle = styled.table`
     
     & .title-names{
       position: relative;
+
+      & > span {
+        text-decoration: none;
+      }
+
+      & .active{
+        color: red;
+      }
+
       & > span:first-child {
         position: absolute;
         top: -5px;

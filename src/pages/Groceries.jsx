@@ -5,14 +5,23 @@ import { groceriesState } from '../states/groceriesState'
 import { itemsState } from '../states/itemsState'
 import { itemsDelete, itemsRead, itemsUpdate } from '../service/items.service'
 import { groceriesCreate, groceriesDelete, groceriesRead, groceriesUpdate } from '../service/groceries.service'
-import { DeleteBtn, FormStyle, MainStyle, OutlinedInput, TableStyle } from '../components/styled.js'
+import { DeleteBtn, FormStyle, MainStyle, TableStyle } from '../components/styled.js'
 import { EditSharp, KeyboardArrowDownSharp, KeyboardArrowUpSharp, RemoveCircleOutline } from '@mui/icons-material'
-import { Pagination } from '@mui/material'
+import { Box, Pagination } from '@mui/material'
+import usePagination from '../service/pagination.service'
+import { NavLink, useSearchParams } from 'react-router-dom'
+import _ from 'lodash'
 
 const Groceries = () => {
 
   const [grocereisData, setGroceriesData] = useRecoilState(groceriesState)
   const [itemsData, setItemsData] = useRecoilState(itemsState)
+  const [page, setPage] = useState(1)
+
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const orderByName = searchParams.get('orderByName') || 'name';
+  const orderByType = searchParams.get('orderByType') || 'asc';
 
   const [inputData, setInputData] = useState({
     name: null,
@@ -21,10 +30,13 @@ const Groceries = () => {
     done: false,
   })
 
+  const listNum = 10;
+  const count = Math.ceil(grocereisData.length / listNum)
+  const _data = usePagination(grocereisData, listNum)
 
   useEffect(() => {
-    loadGroceries()
-  }, [grocereisData])
+    loadGroceries(orderByName, orderByType)
+  }, [grocereisData, orderByName, orderByType])
 
 
   const handleInput = e => {
@@ -34,7 +46,7 @@ const Groceries = () => {
 
 
 
-  const loadGroceries = async () => {
+  const loadGroceries = async (orderByName, orderByType) => {
     const promises = [];
 
     promises[0] = new Promise(function (resolve, reject) {
@@ -65,7 +77,7 @@ const Groceries = () => {
         grocery.key = key;
         grocery.hasItem = itemsPromise[key]
         groceries.push(grocery)
-        setGroceriesData([...groceries])
+        setGroceriesData(_.orderBy(groceries, orderByName, orderByType))
       }
     }).catch(error => {
       console.log(error)
@@ -94,6 +106,19 @@ const Groceries = () => {
     }
   }
 
+  const activeClass = function (_orderByName, _orderByType) {
+    if (orderByName === _orderByName && orderByType === _orderByType) {
+      return ' active';
+    } else {
+      return '';
+    }
+  }
+
+  const handlePagination = (e, p) => {
+    setPage(p);
+    _data.jump(p)
+  }
+
 
 
 
@@ -114,22 +139,22 @@ const Groceries = () => {
               <th>
                 <span className='title-names'>
                   Name
-                  <span><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></span>
-                  <span><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></span>
+                  <span className={activeClass('name', 'asc')}><NavLink to='?orderByName=name&orderByType=asc'><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></NavLink></span>
+                  <span className={activeClass('name', 'desc')}><NavLink to='?orderByName=name&orderByType=desc'><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></NavLink></span>
                 </span>
               </th>
               <th>
                 <span className='title-names'>
                   Enter
-                  <span><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></span>
-                  <span><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></span>
+                  <span className={activeClass('enter', 'asc')}><NavLink to='?orderByName=enter&orderByType=asc'><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></NavLink></span>
+                  <span className={activeClass('enter', 'desc')}><NavLink to='?orderByName=enter&orderByType=desc'><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></NavLink></span>
                 </span>
               </th>
               <th>
                 <span className='title-names'>
                   Expire
-                  <span><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></span>
-                  <span><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></span>
+                  <span className={activeClass('expire', 'asc')}><NavLink to='?orderByName=expire&orderByType=asc'><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></NavLink></span>
+                  <span className={activeClass('expire', 'desc')}><NavLink to='?orderByName=expire&orderByType=desc'><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></NavLink></span>
                 </span>
               </th>
               <th>Del</th>
@@ -137,7 +162,7 @@ const Groceries = () => {
           </thead>
           <tbody>
             {
-              grocereisData.map((grocery) => {
+              _data.currentData().map((grocery) => {
                 return (
                   <tr key={grocery.key}>
                     <td>
@@ -167,10 +192,19 @@ const Groceries = () => {
             }
           </tbody>
         </TableStyle>
-        <div>
-          <Pagination count={10} shape="rounded" />
-        </div>
       </div>
+      <Box
+        justifyContent="center"
+        alignItems="center"
+        display="flex"
+        sx={{ margin: "20px 0px" }}>
+        <Pagination
+          count={count}
+          page={page}
+          shape="rounded"
+          onChange={handlePagination}
+        ></Pagination>
+      </Box>
     </MainStyle >
   )
 }

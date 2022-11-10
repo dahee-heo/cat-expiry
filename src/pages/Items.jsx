@@ -4,22 +4,37 @@ import axios from 'axios'
 // import { groceries } from '../states/groceriesState'
 import { useRecoilState } from 'recoil'
 import { itemsRead, itemsDelete } from '../service/items.service'
-import { DeleteBtn, FormStyle, MainStyle, TableStyle, EditBtn } from '../components/styled'
+import { DeleteBtn, FormStyle, MainStyle, TableStyle, EditBtn } from '../components/styled.js'
 import { EditSharp, KeyboardArrowDownSharp, KeyboardArrowUpSharp, RemoveCircleOutline } from '@mui/icons-material'
+import { NavLink, useParams, useSearchParams } from 'react-router-dom'
+import _ from 'lodash'
+import usePagination from '../service/pagination.service'
+import { Pagination } from '@mui/material'
+import { Box } from '@mui/system'
 
 const Items = () => {
 
   const [itemsData, setItemsData] = useState([])
   const [searchText, setSearchText] = useState('')
+  const [page, setPage] = useState(1)
+
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const orderByName = searchParams.get('orderByName') || 'name';
+  const orderByType = searchParams.get('orderByType') || 'asc';
+
+  const listNum = 10;
+  const count = Math.ceil(itemsData.length / listNum)
+  const _data = usePagination(itemsData, listNum)
 
 
   useEffect(() => {
-    loadItems()
-  }, [itemsData])
+    loadItems(orderByName, orderByType)
+  }, [itemsData, orderByName, orderByType])
 
   const url = process.env.REACT_APP_DATABASE_URL;
 
-  const loadItems = async () => {
+  const loadItems = async (orderByName, orderByType) => {
     try {
       const response = await itemsRead()
       const itemsList = [];
@@ -29,7 +44,7 @@ const Items = () => {
         item.key = key
         itemsList.push(item)
       }
-      setItemsData(itemsList)
+      setItemsData(_.orderBy(itemsList, orderByName, orderByType))
     } catch (error) {
       console.log(error)
     }
@@ -47,6 +62,20 @@ const Items = () => {
       console.log(error)
     }
   }
+
+  const activeClass = function (_orderByName, _orderByType) {
+    if (orderByName === _orderByName && orderByType === _orderByType) {
+      return ' active';
+    } else {
+      return '';
+    }
+  }
+
+  const handlePagination = (e, p) => {
+    setPage(p);
+    _data.jump(p)
+  }
+
 
 
   return (
@@ -66,22 +95,22 @@ const Items = () => {
               <th>
                 <span className='title-names'>
                   Name
-                  <span><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></span>
-                  <span><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></span>
+                  <span className={activeClass('name', 'asc')}><NavLink to='?orderByName=name&orderByType=asc'><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></NavLink></span>
+                  <span className={activeClass('name', 'desc')}><NavLink to='?orderByName=name&orderByType=desc'><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></NavLink></span>
                 </span>
               </th>
               <th>
                 <span className='title-names'>
                   Enter
-                  <span><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></span>
-                  <span><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></span>
+                  <span className={activeClass('enter', 'asc')}><NavLink to='?orderByName=enter&orderByType=asc'><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></NavLink></span>
+                  <span className={activeClass('enter', 'desc')}><NavLink to='?orderByName=enter&orderByType=desc'><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></NavLink></span>
                 </span>
               </th>
               <th>
                 <span className='title-names'>
                   Expire
-                  <span><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></span>
-                  <span><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></span>
+                  <span className={activeClass('expire', 'asc')}><NavLink to='?orderByName=expire&orderByType=asc'><KeyboardArrowUpSharp sx={{ fontSize: 18 }} /></NavLink></span>
+                  <span className={activeClass('expire', 'desc')}><NavLink to='?orderByName=expire&orderByType=desc'><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></NavLink></span>
                 </span>
               </th>
               <th>Edit</th>
@@ -90,7 +119,7 @@ const Items = () => {
           </thead>
           <tbody>
             {
-              itemsData.map((grocery, index) => {
+              _data.currentData().map((grocery, index) => {
                 // console.log('grocery: ', grocery);
                 return (
                   <tr key={index}>
@@ -111,7 +140,18 @@ const Items = () => {
           </tbody>
         </TableStyle>
       </div>
-
+      <Box
+        justifyContent="center"
+        alignItems="center"
+        display="flex"
+        sx={{ margin: "20px 0px" }}>
+        <Pagination
+          count={count}
+          page={page}
+          shape="rounded"
+          onChange={handlePagination}
+        ></Pagination>
+      </Box>
     </MainStyle>
   )
 }
