@@ -11,12 +11,16 @@ import _ from 'lodash'
 import usePagination from '../service/pagination.service'
 import { Pagination } from '@mui/material'
 import { Box } from '@mui/system'
+import { users } from '../states/userState'
 
 const Items = () => {
 
   const [itemsData, setItemsData] = useState([])
   const [searchText, setSearchText] = useState('')
   const [page, setPage] = useState(1)
+  const [loginUser, setLoginUser] = useRecoilState(users)
+
+  const uid = loginUser.uid
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -29,8 +33,10 @@ const Items = () => {
 
 
   useEffect(() => {
-    loadItems(orderByName, orderByType)
-  }, [itemsData, orderByName, orderByType])
+    if (uid) {
+      loadItems(orderByName, orderByType)
+    }
+  }, [itemsData, orderByName, orderByType, uid])
 
   const url = process.env.REACT_APP_DATABASE_URL;
 

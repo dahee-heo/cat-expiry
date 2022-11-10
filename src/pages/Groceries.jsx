@@ -11,12 +11,16 @@ import { Box, Pagination } from '@mui/material'
 import usePagination from '../service/pagination.service'
 import { NavLink, useSearchParams } from 'react-router-dom'
 import _ from 'lodash'
+import { users } from '../states/userState'
 
 const Groceries = () => {
 
   const [grocereisData, setGroceriesData] = useRecoilState(groceriesState)
   const [itemsData, setItemsData] = useRecoilState(itemsState)
   const [page, setPage] = useState(1)
+  const [loginUser, setLoginUser] = useRecoilState(users)
+
+  const uid = loginUser.uid;
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -35,16 +39,16 @@ const Groceries = () => {
   const _data = usePagination(grocereisData, listNum)
 
   useEffect(() => {
-    loadGroceries(orderByName, orderByType)
-  }, [grocereisData, orderByName, orderByType])
+    if (uid) {
+
+      loadGroceries(orderByName, orderByType)
+    }
+  }, [grocereisData, orderByName, orderByType, uid])
 
 
   const handleInput = e => {
     setInputData({ ...inputData, name: e.target.value })
   }
-
-
-
 
   const loadGroceries = async (orderByName, orderByType) => {
     const promises = [];

@@ -5,7 +5,7 @@ import { style } from '@mui/system'
 
 
 const MainStyle = styled.main`
-padding: 20px;
+  padding: 20px;
 `
 
 const NavStyle = styled(NavLink)`
@@ -115,10 +115,13 @@ const EditBtn = styled.button`
 `
 
 const AccoutDiv = styled.div`
-& > div{
+  cursor:pointer; 
+  
+  & > .account-menu{
     position: relative;
-
+    
     & > ul{      
+      display: none;
       position: absolute;
       width: 100px;
       margin: 0;
@@ -135,6 +138,10 @@ const AccoutDiv = styled.div`
         font-size: 14px;
         list-style: none;
       }
+    }
+
+    & > .active {
+      display: block;
     }
   }
 `
