@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import { SearchOutlined, Edit, KeyboardArrowUp, KeyboardArrowDown, RemoveCircle } from '@material-ui/icons'
+import { SearchOutlined } from '@material-ui/icons'
 import axios from 'axios'
-// import { groceries } from '../states/groceriesState'
 import { useRecoilState } from 'recoil'
-import { itemsRead, itemsDelete } from '../service/items.service'
+import { itemsState } from '../states/itemsState'
+import { itemsRead, itemsDelete, itemsUpdate } from '../service/items.service'
 import { DeleteBtn, FormStyle, MainStyle, TableStyle, EditBtn } from '../components/styled.js'
 import { EditSharp, KeyboardArrowDownSharp, KeyboardArrowUpSharp, RemoveCircleOutline } from '@mui/icons-material'
-import { NavLink, useParams, useSearchParams } from 'react-router-dom'
+import { NavLink, useSearchParams } from 'react-router-dom'
 import _ from 'lodash'
 import usePagination from '../service/pagination.service'
 import { Pagination } from '@mui/material'
 import { Box } from '@mui/system'
 import { users } from '../states/userState'
+import { Modal } from '@material-ui/core'
 
 const Items = () => {
 
-  const [itemsData, setItemsData] = useState([])
+  const [itemsData, setItemsData] = useRecoilState(itemsState)
   const [searchText, setSearchText] = useState('')
   const [page, setPage] = useState(1)
   const [loginUser, setLoginUser] = useRecoilState(users)
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const uid = loginUser.uid
 
@@ -32,6 +37,9 @@ const Items = () => {
   const _data = usePagination(itemsData, listNum)
 
 
+
+
+
   useEffect(() => {
     if (uid) {
       loadItems(orderByName, orderByType)
@@ -39,6 +47,7 @@ const Items = () => {
   }, [itemsData, orderByName, orderByType, uid])
 
   const url = process.env.REACT_APP_DATABASE_URL;
+
 
   const loadItems = async (orderByName, orderByType) => {
     try {
@@ -57,13 +66,13 @@ const Items = () => {
   }
 
 
-  const itemsUpdate = async (grocery) => {
+  const updateItem = async (grocery) => {
     try {
       const updateData = {
         ...grocery,
         expire: grocery.expire,
       }
-      const res = await axios.patch(`${url}/items/${grocery.key}.json`)
+      const res = await itemsUpdate()
     } catch (error) {
       console.log(error)
     }
@@ -81,6 +90,18 @@ const Items = () => {
     setPage(p);
     _data.jump(p)
   }
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'white',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
 
 
@@ -134,7 +155,7 @@ const Items = () => {
                     <td>{grocery.enter}</td>
                     <td>{grocery.expire}</td>
                     <td>
-                      <EditBtn><span><EditSharp /></span></EditBtn>
+                      <EditBtn onClick={handleOpen}><span><EditSharp /></span></EditBtn>
                     </td>
                     <td>
                       <DeleteBtn onClick={() => itemsDelete(grocery)}><span><RemoveCircleOutline /></span></DeleteBtn>
@@ -158,6 +179,31 @@ const Items = () => {
           onChange={handlePagination}
         ></Pagination>
       </Box>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <p>items 수정</p>
+          <form action="">
+            <span>
+              <label for='name' >Name</label>
+              <input type="text" id='name' />
+            </span>
+            <span>
+              <label for='enter' >Enter</label>
+              <input type="date" id='enter' />
+            </span>
+            <span>
+              <label for='expire' >Expire</label>
+              <input type="date" id='expire' />
+            </span>
+            <EditBtn><span><EditSharp /></span></EditBtn>
+          </form>
+        </Box>
+      </Modal>
     </MainStyle>
   )
 }

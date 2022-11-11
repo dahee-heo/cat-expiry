@@ -36,7 +36,6 @@ export const emailSignup = async () => {
   } catch (error) {
     console.log(error)
   }
-
 }
 
 export const emailSignin = async () => {

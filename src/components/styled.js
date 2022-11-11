@@ -3,6 +3,18 @@ import styled from 'styled-components'
 import { Input } from '@material-ui/core'
 import { style } from '@mui/system'
 
+const Logo = styled.h1`
+  display: flex;
+
+  & > img{
+    width: 100px;
+
+    &:hover{
+      transform: rotate(-5deg)
+    }
+  }
+`
+
 
 const MainStyle = styled.main`
   padding: 20px;
@@ -15,7 +27,7 @@ const NavStyle = styled(NavLink)`
   text-decoration: none;
   
   &.active {
-    color: red;
+    color: #E10000;
   }
 `
 
@@ -71,7 +83,7 @@ const TableStyle = styled.table`
       }
 
       & .active{
-        color: red;
+        color: #E10000;
       }
 
       & > span:first-child {
@@ -105,18 +117,19 @@ const TableStyle = styled.table`
 const DeleteBtn = styled.button`
   border: none;
   background: none;
-  color: red;    
+  color: #E10000;    
   cursor:pointer;
 `
 
 const EditBtn = styled.button`
   border: none;
   background: none;
+  cursor: pointer;
 `
 
 const AccoutDiv = styled.div`
   cursor:pointer; 
-  
+
   & > .account-menu{
     position: relative;
     
@@ -146,4 +159,4 @@ const AccoutDiv = styled.div`
   }
 `
 
-export { NavStyle, HeaderDiv, FormStyle, MainStyle, TableStyle, DeleteBtn, EditBtn, AccoutDiv }
+export { NavStyle, HeaderDiv, FormStyle, MainStyle, TableStyle, DeleteBtn, EditBtn, AccoutDiv, Logo }

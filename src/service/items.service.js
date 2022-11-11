@@ -1,9 +1,10 @@
 import axios from "axios";
+import { users } from "../states/userState";
 
 const hostUrl = process.env.REACT_APP_DATABASE_URL;
 
 export const itemsRead = async () => {
-  return await axios.get(`${hostUrl}/items.json`)
+  return await axios.get(`${hostUrl}/${users.uid}/items.json`)
 }
 
 export const itemsCreate = async (createParams) => {
@@ -12,7 +13,7 @@ export const itemsCreate = async (createParams) => {
     enter: createParams.enter,
     expire: createParams.expire,
   }
-  return await axios.post(`${hostUrl}/items.json`, createData)
+  return await axios.post(`${hostUrl}/${users.uid}/items.json`, createData)
 }
 
 export const itemsUpdate = async (updateParams) => {
@@ -21,9 +22,9 @@ export const itemsUpdate = async (updateParams) => {
     enter: updateParams.enter,
     expire: updateParams.expire,
   }
-  return await axios.patch(`${hostUrl}/items/${updateParams.key}.json`, updateData)
+  return await axios.patch(`${hostUrl}/${users.uid}/items/${updateParams.key}.json`, updateData)
 }
 
 export const itemsDelete = async (deleteParams) => {
-  return axios.delete(`${hostUrl}/items/${deleteParams.key}.json`)
+  return axios.delete(`${hostUrl}/${users.uid}/items/${deleteParams.key}.json`)
 }

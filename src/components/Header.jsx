@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { AccoutDiv, HeaderDiv, NavStyle } from './styled'
+import { AccoutDiv, HeaderDiv, Logo, NavStyle } from './styled'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import firebase from 'firebase/compat/app';
 import { useRecoilState } from 'recoil';
@@ -32,6 +32,7 @@ const Header = () => {
           email: firebaseUser.email,
           uid: firebaseUser.uid
         })
+        // console.log(loginUser)
       } else {
         setLoginUser({
           displayName: null,
@@ -48,7 +49,7 @@ const Header = () => {
 
   return (
     <HeaderDiv>
-      <div>Logo</div>
+      <Logo><img src={process.env.PUBLIC_URL + '/logo.png'} /></Logo>
       <div>
         <NavStyle to='/home'>Home</NavStyle>
         <NavStyle to='/groceries'>Groceries</NavStyle>

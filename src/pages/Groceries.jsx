@@ -40,7 +40,6 @@ const Groceries = () => {
 
   useEffect(() => {
     if (uid) {
-
       loadGroceries(orderByName, orderByType)
     }
   }, [grocereisData, orderByName, orderByType, uid])
@@ -131,7 +130,7 @@ const Groceries = () => {
       <FormStyle onSubmit={event => {
         event.preventDefault();
       }}>
-        <input type="text" placeholder='식료품명을 입력해주세요.' name='name' onChange={(e) => handleInput(e)} />
+        <input type="text" placeholder='식료품을 추가해주세요.' name='name' onChange={(e) => handleInput(e)} />
         <button onClick={() => groceriesCreate(inputData)}><EditSharp /></button>
       </FormStyle>
 
