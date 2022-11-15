@@ -1,7 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
-import { Input } from '@material-ui/core'
-import { style } from '@mui/system'
+
+const color = {
+  primary: '#E10000',
+}
+
 
 const Logo = styled.h1`
   display: flex;
@@ -14,7 +17,80 @@ const Logo = styled.h1`
     }
   }
 `
+const Main = styled.main`
+    display: flex;
+    height: 360px;
+    font-size: 16px;
+  `
+const MainVidual = styled.div`
+    width: 100%;
+    height: 80vh;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 100px;
 
+
+    & > .text-area{
+      display: flex;
+      flex-direction: column;
+      color: #444;
+      
+      &  h2{
+        font-size: 2.5rem;
+        font-weight: 800;
+
+        & > span{
+          color: black;
+        }
+      }
+
+      & button {
+        height: 48px;
+        width: 200px;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 700;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      & button:first-child {
+        margin-right: 10px;
+        background-color: ${color.primary};
+
+        &:hover{
+          
+        }
+      }
+
+      & button:last-child {
+        margin-right: 10px;
+        background-color: #DD0000;
+
+        &:hover{
+          
+        }
+      }
+
+      & a {
+        text-decoration: none;
+        color: white;
+      }
+    }
+
+    & > div:last-child{
+      width: 500px;
+      height: 360px;
+
+      & > img{
+        width: 100%;
+        height: 100%;
+      }
+    }
+  `
 
 const MainStyle = styled.main`
   padding: 20px;
@@ -27,7 +103,7 @@ const NavStyle = styled(NavLink)`
   text-decoration: none;
   
   &.active {
-    color: #E10000;
+    color: ${color.primary};
   }
 `
 
@@ -83,7 +159,7 @@ const TableStyle = styled.table`
       }
 
       & .active{
-        color: #E10000;
+        color: ${color.primary};
       }
 
       & > span:first-child {
@@ -117,7 +193,7 @@ const TableStyle = styled.table`
 const DeleteBtn = styled.button`
   border: none;
   background: none;
-  color: #E10000;    
+  color: ${color.primary};    
   cursor:pointer;
 `
 
@@ -159,4 +235,4 @@ const AccoutDiv = styled.div`
   }
 `
 
-export { NavStyle, HeaderDiv, FormStyle, MainStyle, TableStyle, DeleteBtn, EditBtn, AccoutDiv, Logo }
+export { NavStyle, HeaderDiv, FormStyle, MainStyle, TableStyle, DeleteBtn, EditBtn, AccoutDiv, Logo, Main, MainVidual }

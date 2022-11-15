@@ -25,14 +25,12 @@ const Header = () => {
 
   const onAuthStateChanged = () => {
     authService.onAuthStateChanged(async firebaseUser => {
-      console.log('firebaseUser: ', firebaseUser);
       if (firebaseUser) {
         setLoginUser({
           displayName: firebaseUser.displayName,
           email: firebaseUser.email,
           uid: firebaseUser.uid
         })
-        // console.log(loginUser)
       } else {
         setLoginUser({
           displayName: null,

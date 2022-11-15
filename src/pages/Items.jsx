@@ -5,14 +5,13 @@ import { useRecoilState } from 'recoil'
 import { itemsState } from '../states/itemsState'
 import { itemsRead, itemsDelete, itemsUpdate } from '../service/items.service'
 import { DeleteBtn, FormStyle, MainStyle, TableStyle, EditBtn } from '../components/styled.js'
-import { EditSharp, KeyboardArrowDownSharp, KeyboardArrowUpSharp, RemoveCircleOutline } from '@mui/icons-material'
+import { KeyboardArrowDownSharp, KeyboardArrowUpSharp, RemoveCircleOutline } from '@mui/icons-material'
 import { NavLink, useSearchParams } from 'react-router-dom'
 import _ from 'lodash'
 import usePagination from '../service/pagination.service'
 import { Pagination } from '@mui/material'
 import { Box } from '@mui/system'
 import { users } from '../states/userState'
-import { Modal } from '@material-ui/core'
 
 const Items = () => {
 
@@ -20,10 +19,6 @@ const Items = () => {
   const [searchText, setSearchText] = useState('')
   const [page, setPage] = useState(1)
   const [loginUser, setLoginUser] = useRecoilState(users)
-
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   const uid = loginUser.uid
 
@@ -36,8 +31,11 @@ const Items = () => {
   const count = Math.ceil(itemsData.length / listNum)
   const _data = usePagination(itemsData, listNum)
 
+  useEffect(() => {
+    console.log('orderByName: ', orderByName);
+    console.log('orderByType: ', orderByType);
 
-
+  }, [orderByName, orderByType])
 
 
   useEffect(() => {
@@ -45,8 +43,6 @@ const Items = () => {
       loadItems(orderByName, orderByType)
     }
   }, [itemsData, orderByName, orderByType, uid])
-
-  const url = process.env.REACT_APP_DATABASE_URL;
 
 
   const loadItems = async (orderByName, orderByType) => {
@@ -65,19 +61,6 @@ const Items = () => {
     }
   }
 
-
-  const updateItem = async (grocery) => {
-    try {
-      const updateData = {
-        ...grocery,
-        expire: grocery.expire,
-      }
-      const res = await itemsUpdate()
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   const activeClass = function (_orderByName, _orderByType) {
     if (orderByName === _orderByName && orderByType === _orderByType) {
       return ' active';
@@ -90,18 +73,6 @@ const Items = () => {
     setPage(p);
     _data.jump(p)
   }
-
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'white',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
 
 
 
@@ -140,23 +111,18 @@ const Items = () => {
                   <span className={activeClass('expire', 'desc')}><NavLink to='?orderByName=expire&orderByType=desc'><KeyboardArrowDownSharp sx={{ fontSize: 18 }} /></NavLink></span>
                 </span>
               </th>
-              <th>Edit</th>
               <th>Del</th>
             </tr>
           </thead>
           <tbody>
             {
               _data.currentData().map((grocery, index) => {
-                // console.log('grocery: ', grocery);
                 return (
                   <tr key={index}>
                     <td>{index + 1}</td>
                     <td>{grocery.name}</td>
                     <td>{grocery.enter}</td>
                     <td>{grocery.expire}</td>
-                    <td>
-                      <EditBtn onClick={handleOpen}><span><EditSharp /></span></EditBtn>
-                    </td>
                     <td>
                       <DeleteBtn onClick={() => itemsDelete(grocery)}><span><RemoveCircleOutline /></span></DeleteBtn>
                     </td>
@@ -179,31 +145,6 @@ const Items = () => {
           onChange={handlePagination}
         ></Pagination>
       </Box>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <p>items 수정</p>
-          <form action="">
-            <span>
-              <label for='name' >Name</label>
-              <input type="text" id='name' />
-            </span>
-            <span>
-              <label for='enter' >Enter</label>
-              <input type="date" id='enter' />
-            </span>
-            <span>
-              <label for='expire' >Expire</label>
-              <input type="date" id='expire' />
-            </span>
-            <EditBtn><span><EditSharp /></span></EditBtn>
-          </form>
-        </Box>
-      </Modal>
     </MainStyle>
   )
 }
