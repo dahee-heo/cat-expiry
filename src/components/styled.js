@@ -59,19 +59,20 @@ const MainVidual = styled.div`
 
       & button:first-child {
         margin-right: 10px;
+        margin-bottom: 10px;
         background-color: ${color.primary};
 
         &:hover{
-          
+          background-color: #D20000;
         }
       }
 
       & button:last-child {
         margin-right: 10px;
-        background-color: #DD0000;
+        background-color: #CA0000;
 
         &:hover{
-          
+          background-color: #BB0000;
         }
       }
 
@@ -82,8 +83,8 @@ const MainVidual = styled.div`
     }
 
     & > div:last-child{
-      width: 500px;
-      height: 360px;
+      width: 40vw;
+      height: auto;
 
       & > img{
         width: 100%;
