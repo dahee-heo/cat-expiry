@@ -7,11 +7,13 @@ import { users } from '../states/userState';
 import { emailSignin, emailSignup, googleLogin, googleLogout } from '../service/login.service';
 import { authService } from '../firebase';
 import { useNavigate } from 'react-router-dom';
+import { countState } from '../states/itemsState';
 
 
 const Header = () => {
   const [loginUser, setLoginUser] = useRecoilState(users)
   const [loginView, setLoginView] = useState(false)
+  const [count, setCount] = useRecoilState(countState)
 
   const nav = useNavigate()
   useEffect(() => {
@@ -51,7 +53,7 @@ const Header = () => {
       <div>
         <NavStyle to='/home'>Home</NavStyle>
         <NavStyle to='/groceries'>Groceries</NavStyle>
-        <NavStyle to='/items'>Item</NavStyle>
+        <NavStyle to='/items'>Item<div className='count'><span>{count}</span></div></NavStyle>
       </div>
       <AccoutDiv>
         <div className='account-menu' onClick={handleClick}>

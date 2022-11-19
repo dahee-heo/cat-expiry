@@ -1,5 +1,4 @@
-import { atom, selector, selectorFamily } from "recoil";
-
+import { atom } from "recoil";
 
 export const users = atom({
   key: 'users',

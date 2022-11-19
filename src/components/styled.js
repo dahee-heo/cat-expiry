@@ -5,6 +5,10 @@ const color = {
   primary: '#E10000',
 }
 
+const font = {
+  fontDefault: '"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif'
+}
+
 
 const Logo = styled.h1`
   display: flex;
@@ -115,8 +119,26 @@ const HeaderDiv = styled.header`
   height: 40px;
   padding: 20px;
   border-bottom: 1px solid #eee;
-  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-family: ${font.fontDefault};
   font-weight: 800;
+
+  & .count {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-color: #000;
+    border-radius: 6px;
+    text-align: center;
+    position: relative;
+
+    & > span{
+      color: #fff;
+      font-size: 12px;
+      position: absolute;
+      top: -1px;
+      left: 2px;
+    }
+  }
 `
 
 const FormStyle = styled.form`
@@ -147,7 +169,7 @@ const TableStyle = styled.table`
   width: 100%;
 
   & th {
-    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    font-family:  ${font.fontDefault};
     font-size: 14px;  
     padding: 10px;
     border-bottom: 1px solid #ccc; 
@@ -175,14 +197,14 @@ const TableStyle = styled.table`
   }
 
   & td{
-    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    font-family:  ${font.fontDefault};
     font-size: 16px;  
     padding: 10px;
     border-bottom: 1px solid #eee; 
     text-align: center;
     
     & input[type='date'] {
-      font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+      font-family:  ${font.fontDefault};
       font-size: 16px;  
       padding: 10px;
       border: none;
