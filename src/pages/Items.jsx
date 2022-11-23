@@ -8,10 +8,7 @@ import ItemsTable from '../components/ItemsTable'
 import { useEffect } from 'react'
 import { itemsDelete, itemsRead } from '../service/items.service.js'
 import _ from 'lodash'
-import { add, format } from 'date-fns'
 import { useSearchParams } from 'react-router-dom'
-import { useRecoilState } from 'recoil'
-import { countState } from '../states/itemsState.js'
 
 const Items = ({ uid }) => {
   const [searchParams, setSearchParams] = useSearchParams('')
@@ -22,7 +19,6 @@ const Items = ({ uid }) => {
   const [searchText, setSearchText] = useState('')
   const [page, setPage] = useState(1)
   const data = usePagination(itemsData, listNum)
-  const [expireCount, setExpireCount] = useRecoilState(countState)
 
 
   useEffect(() => {
@@ -36,15 +32,12 @@ const Items = ({ uid }) => {
     try {
       const response = await itemsRead(uid)
       const itemsList = [];
-      let count = 0;
       for (const key in response.data) {
         const item = response.data[key]
-        // if (format(add(new Date(), { days: 3 }), 'yyyy-MM-dd') >= item.expire) count++
         if (!item.name.includes(searchText)) continue;
         item.key = key
         itemsList.push(item)
       }
-      // setExpireCount(count);
       setItemsData(_.orderBy(itemsList, orderByName, orderByType))
     } catch (error) {
       console.log(error)

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { users } from "../states/userState";
 
 
 const url = process.env.REACT_APP_DATABASE_URL;

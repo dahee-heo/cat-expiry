@@ -3,7 +3,7 @@ import { AccoutDiv, HeaderDiv, Logo, NavStyle } from './styled'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { users } from '../states/userState';
-import { countSelector, countState } from '../states/itemsState';
+import { countSelector } from '../states/itemsState';
 import { googleLogin, googleLogout, guestLogin } from '../service/login.service';
 import { authService } from '../firebase';
 import { useNavigate } from 'react-router-dom';
@@ -13,9 +13,9 @@ import { useNavigate } from 'react-router-dom';
 const Header = ({ uid }) => {
   const [loginUser, setLoginUser] = useRecoilState(users)
   const [loginView, setLoginView] = useState(false)
-  const count = useRecoilValue(countSelector)
-
+  const expireCount = useRecoilValue(countSelector)
   const nav = useNavigate()
+
   useEffect(() => {
     onAuthStateChanged()
   }, [])
@@ -47,6 +47,7 @@ const Header = ({ uid }) => {
     })
   }
 
+
   return (
     <HeaderDiv>
       <Logo><img src={process.env.PUBLIC_URL + '/logo.png'} /></Logo>
@@ -55,7 +56,7 @@ const Header = ({ uid }) => {
         <NavStyle to='/groceries'>Groceries</NavStyle>
         <NavStyle to='/items'>Item
           <div className='count'>
-            <span>{count}</span>
+            <span>{expireCount}</span>
           </div>
         </NavStyle>
       </div>
