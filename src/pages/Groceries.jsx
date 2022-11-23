@@ -6,7 +6,7 @@ import { EditSharp } from '@mui/icons-material'
 import { Box, Pagination } from '@mui/material'
 import usePagination from '../service/pagination.service'
 import GroceriesTable from '../components/GroceriesTable'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import _ from 'lodash'
 import { itemsRead } from '../service/items.service'
 
@@ -20,6 +20,7 @@ const Groceries = ({ uid }) => {
 
   const listNum = 10;
   const data = usePagination(grocereisData, listNum)
+  const navigate = useNavigate()
 
   const handlePagination = (e, p) => {
     setPage(p);
@@ -30,6 +31,8 @@ const Groceries = ({ uid }) => {
   useEffect(() => {
     if (uid) {
       loadGroceries(orderByName, orderByType)
+    } else {
+      alert('우측 버튼을 눌러 로그인해주세요')
     }
   }, [orderByName, orderByType, uid])
 

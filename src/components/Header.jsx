@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const Header = ({ uid }) => {
+const Header = () => {
   const [loginUser, setLoginUser] = useRecoilState(users)
   const [loginView, setLoginView] = useState(false)
   const expireCount = useRecoilValue(countSelector)
