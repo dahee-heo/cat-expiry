@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { AccoutDiv, HeaderDiv, Logo, NavStyle } from './styled'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import firebase from 'firebase/compat/app';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { users } from '../states/userState';
-import { emailSignin, emailSignup, googleLogin, googleLogout } from '../service/login.service';
+import { countSelector, countState } from '../states/itemsState';
+import { googleLogin, googleLogout, guestLogin } from '../service/login.service';
 import { authService } from '../firebase';
 import { useNavigate } from 'react-router-dom';
-import { countState } from '../states/itemsState';
 
 
-const Header = () => {
+
+const Header = ({ uid }) => {
   const [loginUser, setLoginUser] = useRecoilState(users)
   const [loginView, setLoginView] = useState(false)
-  const [count, setCount] = useRecoilState(countState)
+  const count = useRecoilValue(countSelector)
 
   const nav = useNavigate()
   useEffect(() => {
     onAuthStateChanged()
   }, [])
+
 
   const handleClick = e => {
     e.preventDefault();
@@ -46,18 +47,21 @@ const Header = () => {
     })
   }
 
-
   return (
     <HeaderDiv>
       <Logo><img src={process.env.PUBLIC_URL + '/logo.png'} /></Logo>
       <div>
         <NavStyle to='/home'>Home</NavStyle>
         <NavStyle to='/groceries'>Groceries</NavStyle>
-        <NavStyle to='/items'>Item<div className='count'><span>{count}</span></div></NavStyle>
+        <NavStyle to='/items'>Item
+          <div className='count'>
+            <span>{count}</span>
+          </div>
+        </NavStyle>
       </div>
       <AccoutDiv>
         <div className='account-menu' onClick={handleClick}>
-          <sapn><AccountCircleOutlinedIcon sx={{ fontSize: 24 }} /></sapn>
+          <span><AccountCircleOutlinedIcon sx={{ fontSize: 24 }} /></span>
           <ul className={loginView ? ' active' : ''}>
             {loginUser.uid
               ? <>
@@ -65,7 +69,7 @@ const Header = () => {
                 <li onClick={() => googleLogout()}>Logout</li>
               </>
               : <>
-                <li onClick={emailSignin}>Guest</li>
+                <li onClick={guestLogin}>Guest</li>
                 <li onClick={googleLogin}>Login</li>
               </>
             }

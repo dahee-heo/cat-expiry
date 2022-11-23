@@ -1,28 +1,18 @@
 import React, { useEffect } from 'react'
-import { groceriesDelete, groceriesRead, groceriesUpdate } from '../service/groceries.service'
-import { itemsDelete, itemsRead, itemsUpdate } from '../service/items.service'
+import { itemsDelete, itemsUpdate } from '../service/items.service'
 import { DeleteBtn, TableStyle } from './styled.js'
 import { KeyboardArrowDownSharp, KeyboardArrowUpSharp, RemoveCircleOutline } from '@mui/icons-material'
 import { NavLink, useSearchParams } from 'react-router-dom'
 import _ from 'lodash'
 
 
-const GroceriesTable = ({ uid, _data, grocereisData, setGroceriesData }) => {
-  const [searchParams, setSearchParams] = useSearchParams('')
-  const orderByName = searchParams.get('orderByName') || 'name';
-  const orderByType = searchParams.get('orderByType') || 'asc';
-
-  useEffect(() => {
-    if (uid) {
-      loadGroceries(orderByName, orderByType)
-    }
-  }, [orderByName, orderByType, uid])
+const GroceriesTable = ({ uid, editExpire, data, orderByName, orderByType, deleteGroceries }) => {
 
   const onChecked = async (e, grocery) => {
     if (e.target.checked) {
-      itemsUpdate(grocery)
+      itemsUpdate(grocery, uid)
     } else {
-      itemsDelete(grocery)
+      itemsDelete(grocery, uid)
     }
   }
 
@@ -34,55 +24,6 @@ const GroceriesTable = ({ uid, _data, grocereisData, setGroceriesData }) => {
     }
   }
 
-  const editExpire = async (grocery, e) => {
-    try {
-      const editExpire = {
-        expire: e.target.value
-      }
-      await groceriesUpdate(grocery, editExpire)
-      loadGroceries(orderByName, orderByType)
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const loadGroceries = async (orderByName, orderByType) => {
-    const promises = [];
-
-    promises[0] = new Promise(function (resolve, reject) {
-      groceriesRead().then((response) => {
-        resolve(response.data)
-      }).catch((error) => {
-        reject(error)
-      })
-    })
-    promises[1] = new Promise(function (resolve, reject) {
-      itemsRead().then((response) => {
-        // let count = 0;
-        // for (const key in response.data) {
-        //   const item = response.data[key];
-        // }
-        resolve(response.data)
-      }).catch((error) => {
-        reject(error);
-      })
-    })
-    Promise.all(promises).then((result) => {
-      const groceriesPromise = result[0]
-      const itemsPromise = result[1] || [];
-      const groceries = []
-
-      for (const key in groceriesPromise) {
-        const grocery = groceriesPromise[key];
-        grocery.key = key;
-        grocery.hasItem = itemsPromise[key]
-        groceries.push(grocery)
-        setGroceriesData(_.orderBy(groceries, orderByName, orderByType))
-      }
-    }).catch(error => {
-      console.log(error)
-    })
-  }
 
   return (
     <>
@@ -116,7 +57,7 @@ const GroceriesTable = ({ uid, _data, grocereisData, setGroceriesData }) => {
         </thead>
         <tbody>
           {
-            _data.currentData().map((grocery) => {
+            data.currentData().map((grocery) => {
               return (
                 <tr key={grocery.key}>
                   <td>
@@ -137,7 +78,7 @@ const GroceriesTable = ({ uid, _data, grocereisData, setGroceriesData }) => {
                   /></td>
                   <td>
                     <DeleteBtn
-                      onClick={() => groceriesDelete(grocery.key)}
+                      onClick={() => deleteGroceries(grocery.key)}
                     ><span><RemoveCircleOutline /></span></DeleteBtn>
                   </td>
                 </tr>

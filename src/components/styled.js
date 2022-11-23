@@ -179,12 +179,13 @@ const TableStyle = styled.table`
 
       & > span {
         text-decoration: none;
-      }
-
-      & .active{
+        
+      & a {color: #666;}
+      
+      &.active a{
         color: ${color.primary};
       }
-
+    }
       & > span:first-child {
         position: absolute;
         top: -5px;

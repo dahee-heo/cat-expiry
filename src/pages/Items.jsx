@@ -5,30 +5,71 @@ import usePagination from '../service/pagination.service'
 import { Pagination } from '@mui/material'
 import { Box } from '@mui/system'
 import ItemsTable from '../components/ItemsTable'
+import { useEffect } from 'react'
+import { itemsDelete, itemsRead } from '../service/items.service.js'
+import _ from 'lodash'
+import { add, format } from 'date-fns'
+import { useSearchParams } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
+import { countState } from '../states/itemsState.js'
 
 const Items = ({ uid }) => {
-  const [inputText, setInputText] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams('')
+  const orderByName = searchParams.get('orderByName') || 'name';
+  const orderByType = searchParams.get('orderByType') || 'asc';
+  const listNum = 10;
   const [itemsData, setItemsData] = useState([])
   const [searchText, setSearchText] = useState('')
   const [page, setPage] = useState(1)
+  const data = usePagination(itemsData, listNum)
+  const [expireCount, setExpireCount] = useRecoilState(countState)
 
-  const listNum = 10;
-  const count = Math.ceil(itemsData.length / listNum)
-  const _data = usePagination(itemsData, listNum)
+
+  useEffect(() => {
+    if (uid) {
+      loadItems(orderByName, orderByType)
+    }
+  }, [orderByName, orderByType, uid])
+
+
+  const loadItems = async (orderByName, orderByType) => {
+    try {
+      const response = await itemsRead(uid)
+      const itemsList = [];
+      let count = 0;
+      for (const key in response.data) {
+        const item = response.data[key]
+        // if (format(add(new Date(), { days: 3 }), 'yyyy-MM-dd') >= item.expire) count++
+        if (!item.name.includes(searchText)) continue;
+        item.key = key
+        itemsList.push(item)
+      }
+      // setExpireCount(count);
+      setItemsData(_.orderBy(itemsList, orderByName, orderByType))
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const handlePagination = (e, p) => {
     setPage(p);
-    _data.jump(p)
+    data.jump(p)
   }
 
   const onChange = (event) => {
-    setInputText(event.target.value)
+    setSearchText(event.target.value)
   }
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-    setSearchText(inputText)
+    if (uid) { await loadItems(orderByName, orderByType) }
   }
+
+  const deleteItems = async (grocery) => {
+    await itemsDelete(grocery, uid)
+    if (uid) { await loadItems(orderByName, orderByType) }
+  }
+
 
   return (
     <MainStyle>
@@ -37,7 +78,7 @@ const Items = ({ uid }) => {
           type="text"
           name='name'
           placeholder='검색어를 입력해주세요.'
-          value={inputText}
+          value={searchText}
           onChange={onChange}
         />
         <button><SearchOutlined /></button>
@@ -45,11 +86,11 @@ const Items = ({ uid }) => {
 
       <div>
         <ItemsTable
-          _data={_data}
-          uid={uid}
+          data={data}
           searchText={searchText}
-          itemsData={itemsData}
-          setItemsData={setItemsData}
+          orderByName={orderByName}
+          orderByType={orderByType}
+          deleteItems={deleteItems}
         />
       </div>
       <Box
@@ -58,7 +99,7 @@ const Items = ({ uid }) => {
         display="flex"
         sx={{ margin: "20px 0px" }}>
         <Pagination
-          count={count}
+          count={data.maxPage}
           page={page}
           shape="rounded"
           onChange={handlePagination}
