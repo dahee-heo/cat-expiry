@@ -1,0 +1,13 @@
+@use "./_variable.scss" as *;
+
+html[data-theme="light"] {
+  --text-color: #{$text-color-light};
+  --background-color: #{$white};
+  --primary-button-color: #{primary-color};
+}
+
+html[data-theme="dark"] {
+  --text-color: #{$text-color-dark};
+  --background-color: #{$black};
+  --primary-button-color: desaturate(#{primary-color}, 20);
+}
