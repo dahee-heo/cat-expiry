@@ -24,8 +24,6 @@ const Items = ({ uid }) => {
   useEffect(() => {
     if (uid) {
       loadItems(orderByName, orderByType)
-    } else {
-      alert('우측 버튼을 눌러 로그인해주세요')
     }
   }, [orderByName, orderByType, uid])
 

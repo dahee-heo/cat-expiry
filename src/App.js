@@ -1,9 +1,8 @@
-import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Items from './pages/Items';
 import Groceries from './pages/Groceries';
-import Header from './components/Header';
+import { Header } from './components/Header';
 import { Suspense } from 'react';
 import { useRecoilState } from 'recoil';
 import { users } from './states/userState'

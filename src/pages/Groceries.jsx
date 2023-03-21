@@ -31,8 +31,6 @@ const Groceries = ({ uid }) => {
   useEffect(() => {
     if (uid) {
       loadGroceries(orderByName, orderByType)
-    } else {
-      alert('우측 버튼을 눌러 로그인해주세요')
     }
   }, [orderByName, orderByType, uid])
 
@@ -54,6 +52,8 @@ const Groceries = ({ uid }) => {
     setInputGrocery('');
     if (uid) {
       await loadGroceries(orderByName, orderByType)
+    } else {
+      alert('로그인 해주세요.')
     }
   }
 
