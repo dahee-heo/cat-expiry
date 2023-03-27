@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { add, format } from 'date-fns'
 import { groceriesCreate, groceriesDelete, groceriesRead, groceriesUpdate } from '../service/groceries.service'
-import { FormStyle, MainStyle } from '../components/styled.js'
 import { EditSharp } from '@mui/icons-material'
 import { Box, Pagination } from '@mui/material'
 import usePagination from '../service/pagination.service'
@@ -116,8 +115,8 @@ const Groceries = ({ uid }) => {
 
 
   return (
-    <MainStyle>
-      <FormStyle onSubmit={onSubmit}>
+    <main>
+      <form onSubmit={onSubmit}>
         <input
           name='name'
           type="text"
@@ -126,7 +125,7 @@ const Groceries = ({ uid }) => {
           onChange={onInputChange}
         />
         <button><EditSharp /></button>
-      </FormStyle>
+      </form>
 
       <div>
         <GroceriesTable
@@ -151,7 +150,7 @@ const Groceries = ({ uid }) => {
           onChange={handlePagination}
         ></Pagination>
       </Box>
-    </MainStyle >
+    </main >
   )
 }
 

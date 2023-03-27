@@ -1,0 +1,26 @@
+.empty {
+  margin-top: -87px;
+  &__wrap {
+    @include flex(column, center, center);
+    text-align: center;
+    height: 90vh;
+  }
+  svg {
+    font-size: 60px;
+    color: $primary-color;
+    margin-bottom: 12px;
+  }
+  h2 {
+    font-size: $heading2;
+  }
+  p { 
+    color: $gray600; 
+    margin: 12px 0;
+    width: 80%;
+  }
+  button {
+    margin-top: 10px;
+    font-size: $body2;
+    padding: 0 20px;
+  }
+}

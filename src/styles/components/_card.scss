@@ -1,0 +1,41 @@
+@import '../abstracts/variable';
+@import '../abstracts/mixin';
+
+.card {
+  width: 172px;
+  height: 116px;
+  background: $white;
+  box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+  &__wrap {
+    padding: 16px;
+  }
+  &__txt {
+    p { font-size: $body3; color: $gray500; }
+    h3 { font-size: $body1; font-weight: 700; }
+  }
+
+  &__con {
+    p { 
+      font-size: $body3; 
+      color: $primary-color;
+      text-align: right; 
+      font-weight: 700;
+    }
+    progress {
+      appearance: none;
+      max-width: 142px;
+      height: 7px;
+      &::-webkit-progress-bar {
+        background:#f0f0f0;
+        border-radius:10px;
+        box-shadow: inset 3px 3px 10px $gray300;
+    }
+      &::-webkit-progress-value {
+          border-radius:10px;
+          background: $primary-color;
+    
+    }
+  }
+}
+}

@@ -1,0 +1,25 @@
+button {
+  // width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  font-size: $body1;
+  font-weight: 700;
+}
+
+button.primary {
+  background-color: $primary-color;
+  color: $white;
+  &:hover {
+    background-color: darken($color: $primary-color, $amount: 0.2);
+  }
+}
+
+button.secondary {
+  background: none;
+  border: 1px solid $gray500;
+  color: $gray600;
+}
+
+.btn-wrap {
+  @include flex(row, start, space)
+}

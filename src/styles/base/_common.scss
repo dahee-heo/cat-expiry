@@ -1,0 +1,104 @@
+main {
+  padding: 0 25px;
+}
+
+select {
+  background: url('../../assets/arrow.png') no-repeat 95% 50%;
+  -webkit-appearance: none; 
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.ir { 
+  position: absolute; 
+  width: 1; 
+  height: 1;
+  padding: 0;
+  border: 0; 
+  white-space: nowrap;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  line-height: 0; 
+  text-indent: -9999px;
+} 
+
+.title {
+  font-size: $heading2;
+  font-weight: 700;
+}
+
+.sub {
+  font-size: $body2;
+  color: $gray500;
+}
+
+.all-view {
+  font-size: $body3;
+  color: $gray500;
+}
+
+/* margin */
+.mt4 { margin-top: 4px;}
+.mt8 { margin-top: 8px;}
+.mt12 { margin-top: 12px;}
+.mt20 { margin-top: 20px;}
+.mt24 { margin-top: 24px;}
+.mt40 { margin-top: 40px;}
+.mt80 { margin-top: 80px;}
+
+.mr4 { margin-right: 4px;}
+.mr8 { margin-right: 8px;}
+.mr12 { margin-right: 12px;}
+.mr20 { margin-right: 20px;}
+.mr24 { margin-right: 24px;}
+.mr40 { margin-right: 40px;}
+.mr80 { margin-right: 80px;}
+
+.mb4 { margin-bottom: 4px;}
+.mb8 { margin-bottom: 8px;}
+.mb12 { margin-bottom: 12px;}
+.mb20 { margin-bottom: 20px;}
+.mb24 { margin-bottom: 24px;}
+.mb40 { margin-bottom: 40px;}
+.mb80 { margin-bottom: 80px;}
+
+.ml4 { margin-left: 4px;}
+.ml8 { margin-left: 8px;}
+.ml12 { margin-left: 12px;}
+.ml20 { margin-left: 20px;}
+.ml24 { margin-left: 24px;}
+.ml40 { margin-left: 40px;}
+.ml80 { margin-left: 80px;}
+
+/* padding */
+.pt4 { padding-top: 4px;}
+.pt8 { padding-top: 8px;}
+.pt12 { padding-top: 12px;}
+.pt20 { padding-top: 20px;}
+.pt24 { padding-top: 24px;}
+.pt40 { padding-top: 40px;}
+.pt80 { padding-top: 80px;}
+
+.pr4 { padding-right: 4px;}
+.pr8 { padding-right: 8px;}
+.pr12 { padding-right: 12px;}
+.pr20 { padding-right: 20px;}
+.pr24 { padding-right: 24px;}
+.pr40 { padding-right: 40px;}
+.pr80 { padding-right: 80px;}
+
+.pb4 { padding-bottom: 4px;}
+.pb8 { padding-bottom: 8px;}
+.pb12 { padding-bottom: 12px;}
+.pb20 { padding-bottom: 20px;}
+.pb24 { padding-bottom: 24px;}
+.pb40 { padding-bottom: 40px;}
+.pb80 { padding-bottom: 80px;}
+
+.pl4 { padding-left: 4px;}
+.pl8 { padding-left: 8px;}
+.pl12 { padding-left: 12px;}
+.pl20 { padding-left: 20px;}
+.pl24 { padding-left: 24px;}
+.pl40 { padding-left: 40px;}
+.pl80 { padding-left: 80px;}

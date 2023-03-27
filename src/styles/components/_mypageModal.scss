@@ -1,0 +1,166 @@
+.regist-modal {
+  background: $white;
+  position: absolute;
+  height: 30%;
+  width: 100%;
+  bottom: 0;
+  z-index: 50;
+  border-radius: 10px 10px 0 0;
+  transition: .4s;
+  -webkit-transition: .4s;
+  -moz-transition: .4s;
+  -ms-transition: .4s;
+  -o-transition: .4s;
+  &__con {
+    padding: 10px 24px;
+    @include flex(column, start, start)
+  }
+  &__close {
+    background: none;
+    position: absolute;
+    right: 18px;
+    top: 26px;
+    height: 40px;
+    width: 40px;
+  }
+  &__top {
+    padding: 20px 0;
+    width: 100%;
+  }
+  &__nav {
+    flex: 1;
+    nav {
+      font-weight: 800;
+      li {
+        &:nth-child(2) {
+          position: relative;
+        }
+      }
+    }
+    li {
+      margin: 20px 0;
+      font-size: $body1;
+      a {
+        color: $black;
+      }
+    }
+    > ul {
+      color: $gray600;
+      font-weight: 500;
+    }
+  }
+  .count {
+    position: absolute;
+    left: 40px;
+    top: 2px;
+    width: 24px;
+    height: 16px;
+    border-radius: 10px;
+    background-color: $primary-color;
+    span {
+      display: block;
+      color: $white;
+      text-align: center;
+      font-size: $body3;
+    }
+  }
+  .mypage-list {
+    width: 100%;
+    border-top: 1px solid $gray300;
+    li {
+      font-size: $body2;
+      @include flex(row, center, start);
+      margin-bottom: 12px;
+      color: $gray600;
+    }
+  }
+  svg { 
+    font-size: $body1;
+    margin-right: 8px;
+  }
+}
+
+.account {
+  &__wrap {
+   @include flex(row, center, space);
+   .logout {
+      font-size: $body3;
+      color: $gray600;
+    }
+  }
+  &__name {
+    font-size: $body2;
+    span { 
+      font-size: $body1;
+      font-weight: 800;
+    }
+  }
+}
+
+.social {
+  width: 100%;
+  ul { @include flex(column, start, start); }
+  li {
+    display: block;
+    border: 1px solid $gray300;
+    border-radius: 10px;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 4px;
+    font-size: $body2;
+    color: $gray600;
+    @include flex(row, center, center);
+    &:first-child {
+      svg { color: #ed5a4f; }
+    }
+    // svg {
+    //   font-size: $body2;
+    //   margin-right: 8px;
+    // }
+  }
+}
+// .sidebar {
+//   right: 0;
+//   transition: .8s;
+//   -webkit-transition: .8s;
+//   -moz-transition: .8s;
+//   -ms-transition: .8s;
+//   -o-transition: .8s;
+// }
+
+.sidebar__close {
+  background: none;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+
+/*  custom overlay */
+// .custom-overlay {
+//   position: fixed;
+//   left: 0;
+//   top: 0;
+//   background: rgba(0, 0, 0, .4);
+//   z-index: 12500;
+//   visibility: hidden;
+//   opacity: 0;
+//   transition: .4s;
+//   -webkit-transition: .4s;
+//   -moz-transition: .4s;
+//   -ms-transition: .4s;
+//   -o-transition: .4s;
+// }
+
+// .custom-overlay.show {
+//   visibility: visible;
+//   opacity: 1;
+//   transition: .4s;
+//   -webkit-transition: .4s;
+//   -moz-transition: .4s;
+//   -ms-transition: .4s;
+//   -o-transition: .4s;
+// }

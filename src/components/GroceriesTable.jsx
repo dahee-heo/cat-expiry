@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { itemsDelete, itemsUpdate } from '../service/items.service'
-import { DeleteBtn, TableStyle } from './styled.js'
 import { KeyboardArrowDownSharp, KeyboardArrowUpSharp, RemoveCircleOutline } from '@mui/icons-material'
 import { NavLink, useSearchParams } from 'react-router-dom'
 import _ from 'lodash'
@@ -27,7 +26,7 @@ const GroceriesTable = ({ uid, editExpire, data, orderByName, orderByType, delet
 
   return (
     <>
-      <TableStyle>
+      <table>
         <thead>
           <tr>
             <th>Move</th>
@@ -77,16 +76,16 @@ const GroceriesTable = ({ uid, editExpire, data, orderByName, orderByType, delet
                     }
                   /></td>
                   <td>
-                    <DeleteBtn
+                    <button
                       onClick={() => deleteGroceries(grocery.key)}
-                    ><span><RemoveCircleOutline /></span></DeleteBtn>
+                    ><span><RemoveCircleOutline /></span></button>
                   </td>
                 </tr>
               )
             })
           }
         </tbody>
-      </TableStyle>
+      </table>
     </>
   )
 }
