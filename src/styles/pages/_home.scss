@@ -1,0 +1,53 @@
+@import '../abstracts/variable';
+@import '../abstracts/mixin';
+
+
+.section__des {
+  @include flex(row, end, space);
+}
+.card-list {
+  width: 100%;
+  height: 140px;
+  background-color: $gray100;
+  border-radius: 10px;
+}
+.card-container {
+  padding: 12px;
+  overflow-x: scroll;
+  @include flex(row, center, start);
+  -ms-overflow-style:none; /* IE and Edge */
+  scrollbar-width:none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+
+.item-wrap {
+  width: 100%;
+  ul {
+    @include flex(row, center, start);
+    li {
+      width: 25%;
+      height: 86px;
+      padding: 12px;
+      margin-right: 8px;
+      background: $white;
+      box-shadow: 3px 3px 12px $gray300;
+      border-radius: 10px;
+      overflow: hidden;
+      p {
+        &:first-child {
+          font-size: $heading2;
+          color: $primary-color;
+          font-weight: 700;
+        }
+        &:last-child {
+          font-size: $body2;
+          color: $gray600;
+        }
+      }
+    }
+
+  }
+}

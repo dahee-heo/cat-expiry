@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import { SearchOutlined } from '@material-ui/icons'
-import { FormStyle, MainStyle } from '../components/styled.js'
 import usePagination from '../service/pagination.service'
-import { Pagination } from '@mui/material'
-import { Box } from '@mui/system'
-import ItemsTable from '../components/ItemsTable'
+import { Modal, Pagination, Box } from '@mui/material'
 import { useEffect } from 'react'
 import { itemsDelete, itemsRead } from '../service/items.service.js'
 import _ from 'lodash'
 import { useSearchParams } from 'react-router-dom'
+import { GroceryList } from '../components/GroceryList.jsx'
+import { Button } from '../components/Button'
 
 const Items = ({ uid }) => {
   const [searchParams, setSearchParams] = useSearchParams('')
@@ -19,7 +18,15 @@ const Items = ({ uid }) => {
   const [searchText, setSearchText] = useState('')
   const [page, setPage] = useState(1)
   const data = usePagination(itemsData, listNum)
+  
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
+  useEffect(()=>{
+    console.log('open: ', open);
+    
+  }, [open])
 
   useEffect(() => {
     if (uid) {
@@ -65,8 +72,8 @@ const Items = ({ uid }) => {
 
 
   return (
-    <MainStyle>
-      <FormStyle onSubmit={onSubmit}>
+    <main className='items'>
+      <form className='mt20' onSubmit={onSubmit}>
         <input
           type="text"
           name='name'
@@ -74,17 +81,18 @@ const Items = ({ uid }) => {
           value={searchText}
           onChange={onChange}
         />
-        <button><SearchOutlined /></button>
-      </FormStyle>
-
+        <button className='search-icon'><SearchOutlined /></button>
+      </form>
       <div>
-        <ItemsTable
-          data={data}
-          searchText={searchText}
-          orderByName={orderByName}
-          orderByType={orderByType}
-          deleteItems={deleteItems}
-        />
+        <div className='section__des mt20'>
+          <div>
+            <h2 className='title'>Now</h2>
+            <p className='sub'>지금 보관중인 제품을 확인해보세요.</p>
+          </div>
+        </div>
+        <div className='list-wrap mt40'>
+          <GroceryList/>
+        </div>
       </div>
       <Box
         justifyContent="center"
@@ -98,7 +106,11 @@ const Items = ({ uid }) => {
           onChange={handlePagination}
         ></Pagination>
       </Box>
-    </MainStyle>
+      <div>
+        <Button type="primary" onClick={handleOpen} text="등록하기" width="100%"/>
+        {/* <button onClick={handleOpen}>등록하기</button> */}
+      </div>
+    </main>
   )
 }
 
