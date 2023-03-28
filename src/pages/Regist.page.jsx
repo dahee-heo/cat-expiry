@@ -1,22 +1,24 @@
 import React from 'react'
 import { Modal, Box, Select, MenuItem } from '@mui/material'
 import { Button } from '../components/Button';
+import { useTranslation } from "react-i18next";
 
 export const Regist = ({open, handleClose}) => {
+  const { t } = useTranslation();
 
   return (
     <main className='regist'>
       <form onSubmit={(e)=>{e.preventDefault()}}>
         <h2>
-          등록
+          {t("registration")}
         </h2>
         <div className='select-box'>
-          <label htmlFor="cartegory">카테고리</label>
+          <label htmlFor="cartegory">{t("category")}</label>
           <select name="" style={{width: "100%"}} id="category">
-            <option value="dry">건식사료</option>
-            <option value="wet">습식사료</option>
-            <option value="snack">간식</option>
-            <option value="nutrition">영양제</option>
+            <option value="dry">{t("dry")}</option>
+            <option value="wet">{t("wet")}</option>
+            <option value="snack">{t("snack")}</option>
+            <option value="nutrition">{t("nutrition")}</option>
           </select>
           {/* <div className='label'>카테고리</div> */}
           {/* <Select
@@ -31,11 +33,11 @@ export const Regist = ({open, handleClose}) => {
           </Select> */}
         </div>
         <div>
-          <label htmlFor="name">제품명</label>
-          <input type="text" name="" id="name" placeholder='제품명을 입력해주세요.'/>
+          <label htmlFor="name">{t("name")}</label>
+          <input type="text" name="" id="name" placeholder={`${t("regist.namePlaceholder")}`}/>
         </div>
         <div>
-          <label htmlFor="enter">등록일</label>
+          <label htmlFor="enter">{t("registrationDate")}</label>
           <input
             type='date'
             // defaultValue={grocery.expire}
@@ -46,7 +48,7 @@ export const Regist = ({open, handleClose}) => {
           />
         </div>
         <div>
-          <label htmlFor="expire">유통기한 만료일</label>
+          <label htmlFor="expire">{t("expiration")}</label>
           <input
             type='date'
             // defaultValue={grocery.expire}
@@ -57,8 +59,8 @@ export const Regist = ({open, handleClose}) => {
           />
         </div>
         <div className='btn-wrap'>
-          <Button width="49%" type="secondary mr4" text="취소"/>
-          <Button width="49%" type="primary" text="등록하기"/>
+          <Button width="49%" type="secondary mr4" text={`${t("cancel")}`}/>
+          <Button width="49%" type="primary" text={`${t("register")}`}/>
         </div>
       </form>
     </main>

@@ -1,25 +1,27 @@
 import React from 'react'
+import { useTranslation } from "react-i18next";
 import { GroceryListItems } from './GroceryListItems'
 
 export const GroceryList = () => {
+  const { t } = useTranslation();
   const home = true;
 
   return (
     <>
       <div className='table-header'>
         <ul className='tab-menu'>
-          <li className='active'>전체</li>
-          <li>만료 임박</li>
-          <li>처리완료</li>
+          <li className='active'>{t("all")}</li>
+          <li>{t("impending")}</li>
+          <li>{t("finished")}</li>
         </ul>
         {
           home 
-          ? <div className='all-view'>전체보기</div>
+          ? <div className='all-view'>{t("viewAll")}</div>
           : <div>
               <select defaultValue="enter" name="" id="">
-                <option value="name">가나다순</option>
-                <option value="enter">등록일순</option>
-                <option value="expire">만료일순</option>
+                <option value="name">{t("sortAlphabet")}</option>
+                <option value="enter">{t("sortRegistration")}</option>
+                <option value="expire">{t("sortExpiration")}</option>
               </select>
             </div>
         }

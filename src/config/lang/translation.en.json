@@ -1,12 +1,58 @@
 {
-  "header": {
-    "lang": "English",
-    "subMenu": {
-      "company": [
-        "This", "is", "example"
-      ]
-    }
+  "viewAll": "view all",
+  "all" : "all",
+  "impending": "impending",
+  "finished": "done",
+  "dry": "dry food",
+  "wet": "wet food",
+  "snack": "snack",
+  "nutrition" : "nutrition",
+  "sortAlphabet": "A-Z",
+  "sortRegistration": "registration",
+  "sortExpiration": "expiration",
+  "selectionDelete": "Delete Selection",
+  "modification": "edit",
+  "modify": "modify",
+  "delete": "delete",
+  "category": "category",
+  "name": "name",
+  "registrationDate": "registration date",
+  "expiration": "expiration date",
+  "cancel": "cancel",
+  "registration": "registration",
+  "register": "register",
+  
+  "dday": {
+    "title": "D-day",
+    "description": "There are products that are close to expiration."
+  }, 
+
+  "now": {
+    "title": "Now",
+    "description": "Please check the product you are currently storing."
   },
-  "content": "English test"
+
+  "items": {
+    "searchPlaceholder": "Please enter search word."
+  }, 
+
+  "regist": {
+    "namePlaceholder": "Please enter the product name."
+  }, 
+
+  "bookmark": {
+    "title": "Bookmark",
+    "description": "Try to manage the menus you use often.",
+    "placeholder": "Please add a menu that you often use."
+  },
+  
+  "mypage": {
+    "logout": "logout",
+    "help": "help",
+    "appInfo": "application infomation",
+    "pleaseLogin": "Please login",
+    "loginGoogle": "Log in with Google",
+    "loginGuest": "Log in guest"
+  }
 }
      

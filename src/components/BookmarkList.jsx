@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import { MoreVert } from '@material-ui/icons';
 import { Button } from './Button';
+import { useTranslation } from "react-i18next";
 
 export const BookmarkList = () => {
   const [anchorMenu, setAnchorMenu] = useState(null);
+  const { t } = useTranslation();
   const menuOpen = Boolean(anchorMenu);
   const handleClick = (event) => {
     setAnchorMenu(event.currentTarget);
@@ -17,11 +19,11 @@ export const BookmarkList = () => {
     <>
       <div className='table-header'>
         <ul className='tab-menu'>
-          <li className='active'>가나다순</li>
-          <li>등록일순</li>
+          <li className='active'>{t("sortAlphabet")}</li>
+          <li>{t("sortRegistration")}</li>
         </ul>
         <div className='check-del'>
-          <Button type="primary" text="선택삭제"/>
+          <Button type="primary" text={`${t("selectionDelete")}`}/>
         </div>
         {/* <div>
           <select defaultValue="enter" name="" id="">
@@ -38,8 +40,8 @@ export const BookmarkList = () => {
             <h3 className='item-name ml8 mb4'>제품명</h3>
           </div>
           <div className='list__btn'>
-            <Button type="secondary" text="수정"/>
-            <Button type="secondary" text="삭제"/>
+            <Button type="secondary" text={`${t("modification")}`}/>
+            <Button type="secondary" text={`${t("delete")}`}/>
             {/* <IconButton
               aria-label="more"
               id="long-button"

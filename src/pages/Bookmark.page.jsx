@@ -1,24 +1,28 @@
 import React from 'react'
 import { SearchOutlined } from '@material-ui/icons'
 import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
-import { BookmarkList } from '../components/BookmarkList'
+import { BookmarkList } from '../components/BookmarkList';
+import { useTranslation } from "react-i18next";
+
 
 export const Bookmark = () => {
+  const { t } = useTranslation();
+
   return (
     <main className="bookmark">
       <form className='mt20'>
         <input
           type="text"
           name='name'
-          placeholder='자주쓰는 메뉴를 추가해주세요.'
+          placeholder={`${t("bookmark.placeholder")}`}
         />
         <button className='search-icon'><CreateRoundedIcon/> </button>
       </form>
       <div>
         <div className='section__des mt20'>
           <div>
-            <h2 className='title'>Bookmark</h2>
-            <p className='sub'>자주 쓰는 메뉴들을 관리해보세요.</p>
+            <h2 className='title'>{t("bookmark.title")}</h2>
+            <p className='sub'>{t("bookmark.description")}</p>
           </div>
         </div>
         <div className='list-wrap mt40'>

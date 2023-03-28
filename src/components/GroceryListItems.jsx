@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { RegistModal } from '../pages/Regist.page';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import { MoreVert } from '@material-ui/icons';
+import { useTranslation } from "react-i18next";
 
 export const GroceryListItems = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const handleModal = () => setModalOpen(!modalOpen);
-  
+  const { t } = useTranslation();
   const [anchorMenu, setAnchorMenu] = useState(null);
   const menuOpen = Boolean(anchorMenu);
   const handleClick = (event) => {
@@ -48,8 +49,8 @@ export const GroceryListItems = () => {
               style: { width: '80px' },
             }}
           >
-            <MenuItem onClick={handleModal}>수정</MenuItem>
-            <MenuItem>삭제</MenuItem>
+            <MenuItem onClick={handleModal}>{t("modification")}</MenuItem>
+            <MenuItem>{t("delete")}</MenuItem>
           </Menu>
         </div>
       </div>

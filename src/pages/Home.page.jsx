@@ -16,11 +16,8 @@ const Home = () => {
       <section className='mt40'>
         <div className='section__des mb20'>
           <div>
-            <h2 className='title mb4'>D-day</h2>
-            <p className='sub'>유통기한 임박한 제품이 있어요!</p>
-          </div>
-          <div>
-            <p className='all-view'>전체보기</p>
+            <h2 className='title mb4'>{t("dday.title")}</h2>
+            <p className='sub'>{t("dday.description")}</p>
           </div>
         </div>
         <div className='sction__contents'>
@@ -36,8 +33,8 @@ const Home = () => {
       <section className='mt40'>
         <div className='section__des mb20'>
           <div>
-            <h2 className='title'>Now</h2>
-            <p className='sub'>지금 보관중인 제품을 확인해보세요.</p>
+            <h2 className='title'>{t("now.title")}</h2>
+            <p className='sub'>{t("now.description")}</p>
           </div>
         </div>
         <div className='sction__contents'>
@@ -45,19 +42,19 @@ const Home = () => {
             <ul>
               <li>
                 <p>2</p>
-                <p>건식사료</p>
+                <p>{t("dry")}</p>
               </li>
               <li>
                 <p>10</p>
-                <p>습식사료</p>
+                <p>{t("wet")}</p>
               </li>
               <li>
                 <p>0</p>
-                <p>간식</p>
+                <p>{t("snack")}</p>
               </li>
               <li>
                 <p>2</p>
-                <p>영양제</p>
+                <p>{t("nutrition")}</p>
               </li>
             </ul>
           </div>
@@ -66,14 +63,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <div className='mt40'>
-        <Button 
-          width="100%" 
-          type="primary" 
-          onClick={handleOpen} 
-          text="등록하기"
-        />
-      </div>
     </main>
   )
 }

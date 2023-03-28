@@ -12,6 +12,7 @@ import { MypageModal } from './components/MypageModal';
 import { BottomMenu } from './components/BottomMenu';
 import { Regist } from './pages/Regist.page';
 import { Empty } from './pages/Empty.page';
+import "./config/lang/i18n";
 
 function App() {
   const [loginUser, setLoginUser] = useRecoilState(users)

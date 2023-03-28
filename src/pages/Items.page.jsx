@@ -8,6 +8,7 @@ import _ from 'lodash'
 import { useSearchParams } from 'react-router-dom'
 import { GroceryList } from '../components/GroceryList.jsx'
 import { Button } from '../components/Button'
+import { useTranslation } from "react-i18next";
 
 const Items = ({ uid }) => {
   const [searchParams, setSearchParams] = useSearchParams('')
@@ -18,6 +19,7 @@ const Items = ({ uid }) => {
   const [searchText, setSearchText] = useState('')
   const [page, setPage] = useState(1)
   const data = usePagination(itemsData, listNum)
+  const { t } = useTranslation();
   
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -77,7 +79,7 @@ const Items = ({ uid }) => {
         <input
           type="text"
           name='name'
-          placeholder='검색어를 입력해주세요.'
+          placeholder={`${t("items.searchPlaceholder")}`}
           value={searchText}
           onChange={onChange}
         />
@@ -86,8 +88,8 @@ const Items = ({ uid }) => {
       <div>
         <div className='section__des mt20'>
           <div>
-            <h2 className='title'>Now</h2>
-            <p className='sub'>지금 보관중인 제품을 확인해보세요.</p>
+            <h2 className='title'>{t("now.title")}</h2>
+            <p className='sub'>{t("now.description")}</p>
           </div>
         </div>
         <div className='list-wrap mt40'>
@@ -106,10 +108,6 @@ const Items = ({ uid }) => {
           onChange={handlePagination}
         ></Pagination>
       </Box>
-      <div>
-        <Button type="primary" onClick={handleOpen} text="등록하기" width="100%"/>
-        {/* <button onClick={handleOpen}>등록하기</button> */}
-      </div>
     </main>
   )
 }
