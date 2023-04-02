@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { itemsDelete, itemsUpdate } from '../service/items.service'
+import { itemsDelete, itemsUpdate } from '../../service/items.service'
 import { KeyboardArrowDownSharp, KeyboardArrowUpSharp, RemoveCircleOutline } from '@mui/icons-material'
 import { NavLink, useSearchParams } from 'react-router-dom'
 import _ from 'lodash'

@@ -13,6 +13,7 @@ import { BottomMenu } from './components/BottomMenu';
 import { Regist } from './pages/Regist.page';
 import { Empty } from './pages/Empty.page';
 import "./config/lang/i18n";
+import { Products } from './pages/Products.page';
 
 function App() {
   const [loginUser, setLoginUser] = useRecoilState(users)
@@ -22,12 +23,13 @@ function App() {
     <div className='app-bg'>
       <div id='app'>
         <Suspense fallback={<div>Loading...</div>}>
-          <Header uid={uid} />
+          <Header />
           <Routes>
-            <Route path='/' element={<Home />}></Route>
-            <Route path='/home' element={<Home />}></Route>
+            <Route path='/' element={<Home uid={uid}/>}></Route>
+            <Route path='/home' element={<Home uid={uid}/>}></Route>
             <Route path='/items' element={<Items uid={uid} />}></Route>
-            <Route path='/regist' element={<Regist />}></Route>
+            <Route path='/products' element={<Products uid={uid} />}></Route>
+            <Route path='/regist' element={<Regist uid={uid} />}></Route>
             {/* <Route path='/groceries' element={<Groceries uid={uid} />}></Route> */}
             <Route path='/bookmark' element={<Bookmark />}></Route>
             <Route path='/side-menu' element={<MypageModal />}></Route>

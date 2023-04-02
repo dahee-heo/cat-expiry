@@ -25,9 +25,7 @@ function usePagination(data, listView) {
     setCurrentPage(currentPage => Math.min(pageNumber, maxPage));
   }
 
-
   return { next, prev, jump, currentData, currentPage, maxPage }
-
 }
 
 export default usePagination;

@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom';
-import { Add, BookmarkBorder, HomeOutlined, List, SentimentSatisfiedAltOutlined } from '@material-ui/icons';
 import { ReactComponent as BottomHome } from '../assets/bottom_home.svg';
-import { ReactComponent as BottomItems } from '../assets/bottom_items.svg';
 import { ReactComponent as BottomRegist} from '../assets/bottom_regist.svg';
 import { ReactComponent as BottomBookmark } from '../assets/bottom_bookmark.svg';
 import { ReactComponent as BottomMy } from '../assets/bottom_my.svg';
+import { ReactComponent as BottomFood } from '../assets/bottom_food.svg';
 import { MypageModal } from './MypageModal';
 
 export const BottomMenu = () => {
@@ -26,9 +25,9 @@ export const BottomMenu = () => {
           </NavLink>
         </div>
         <div>
-          <NavLink to="/items">
-            <BottomItems/>
-            <p>Items</p>
+          <NavLink to="/products">
+            <BottomFood/>
+            <p>Products</p>
           </NavLink>
         </div>
         <div>

@@ -33,6 +33,11 @@
       box-shadow: 3px 3px 12px $gray300;
       border-radius: 10px;
       overflow: hidden;
+      &.zero { 
+        p { 
+          &:first-child { color: $gray400; }
+        }
+      }
       p {
         &:first-child {
           font-size: $heading2;

@@ -3,8 +3,8 @@ import { add, format } from 'date-fns'
 import { groceriesCreate, groceriesDelete, groceriesRead, groceriesUpdate } from '../service/groceries.service'
 import { EditSharp } from '@mui/icons-material'
 import { Box, Pagination } from '@mui/material'
-import usePagination from '../service/pagination.service'
-import GroceriesTable from '../components/GroceriesTable'
+import usePagination from '../hook/usePagination'
+// import GroceriesTable from '../components/GroceriesTable'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import _ from 'lodash'
 import { itemsRead } from '../service/items.service'
@@ -128,14 +128,14 @@ const Groceries = ({ uid }) => {
       </form>
 
       <div>
-        <GroceriesTable
+        {/* <GroceriesTable
           uid={uid}
           data={data}
           orderByName={orderByName}
           orderByType={orderByType}
           editExpire={editExpire}
           deleteGroceries={deleteGroceries}
-        />
+        /> */}
       </div>
 
       <Box

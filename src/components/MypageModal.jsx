@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 export const MypageModal = ({open, setMenuOpen, handleClose}) => {
   const [loginUser, setLoginUser] = useRecoilState(users)
   const [loginView, setLoginView] = useState(false)
-  const expireCount = useRecoilValue(countSelector)
+  // const expireCount = useRecoilValue(countSelector)
   const navigate = useNavigate()
   const { t } = useTranslation();
 

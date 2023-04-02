@@ -1,81 +1,42 @@
 import React, { useState } from 'react'
 import { SearchOutlined } from '@material-ui/icons'
-import usePagination from '../service/pagination.service'
-import { Modal, Pagination, Box } from '@mui/material'
+import usePagination from '../hook/usePagination'
+import { Pagination, Box } from '@mui/material'
 import { useEffect } from 'react'
 import { itemsDelete, itemsRead } from '../service/items.service.js'
 import _ from 'lodash'
 import { useSearchParams } from 'react-router-dom'
-import { GroceryList } from '../components/GroceryList.jsx'
-import { Button } from '../components/Button'
+import { ProductsTable } from '../components/ProductsTable.jsx'
 import { useTranslation } from "react-i18next";
 
 const Items = ({ uid }) => {
   const [searchParams, setSearchParams] = useSearchParams('')
-  const orderByName = searchParams.get('orderByName') || 'name';
-  const orderByType = searchParams.get('orderByType') || 'asc';
+  const filter = searchParams.get('filter')
   const listNum = 10;
-  const [itemsData, setItemsData] = useState([])
   const [searchText, setSearchText] = useState('')
   const [page, setPage] = useState(1)
-  const data = usePagination(itemsData, listNum)
+  // const data = usePagination(itemsData, listNum)
   const { t } = useTranslation();
   
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  useEffect(()=>{
-    console.log('open: ', open);
-    
-  }, [open])
-
-  useEffect(() => {
-    if (uid) {
-      loadItems(orderByName, orderByType)
-    }
-  }, [orderByName, orderByType, uid])
-
-
-  const loadItems = async (orderByName, orderByType) => {
-    try {
-      const response = await itemsRead(uid)
-      const itemsList = [];
-      for (const key in response.data) {
-        const item = response.data[key]
-        if (!item.name.includes(searchText)) continue;
-        item.key = key
-        itemsList.push(item)
-      }
-      setItemsData(_.orderBy(itemsList, orderByName, orderByType))
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const handlePagination = (e, p) => {
-    setPage(p);
-    data.jump(p)
-  }
+ 
+  // const handlePagination = (e, p) => {
+  //   setPage(p);
+  //   data.jump(p)
+  // }
 
   const onChange = (event) => {
     setSearchText(event.target.value)
   }
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    if (uid) { await loadItems(orderByName, orderByType) }
-  }
-
-  const deleteItems = async (grocery) => {
-    await itemsDelete(grocery, uid)
-    if (uid) { await loadItems(orderByName, orderByType) }
-  }
 
 
   return (
     <main className='items'>
-      <form className='mt20' onSubmit={onSubmit}>
+      <form className='mt20' onSubmit={(e) => e.preventDefault()}>
         <input
           type="text"
           name='name'
@@ -93,10 +54,13 @@ const Items = ({ uid }) => {
           </div>
         </div>
         <div className='list-wrap mt40'>
-          <GroceryList/>
+          <ProductsTable 
+            // data={itemsData}
+            searchText={searchText}
+          />
         </div>
       </div>
-      <Box
+      {/* <Box
         justifyContent="center"
         alignItems="center"
         display="flex"
@@ -107,7 +71,7 @@ const Items = ({ uid }) => {
           shape="rounded"
           onChange={handlePagination}
         ></Pagination>
-      </Box>
+      </Box> */}
     </main>
   )
 }

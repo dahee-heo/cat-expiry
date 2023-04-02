@@ -1,16 +1,32 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from "react-i18next";
-import { Button } from '../components/Button';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
-import { GroceryList } from '../components/GroceryList';
-import { RegistModal } from './Regist.page';
+import { ProductsTable } from '../components/ProductsTable';
+import { useQuery } from 'react-query';
+import { getProducts } from '../service/products.service';
+import { Loading } from './Loading';
 
-const Home = () => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+const Home = ({ uid }) => {
   const { t } = useTranslation();
+  const { isLoading, isError, data, error } = useQuery(['products'], () => getProducts(uid), {
+    refetchOnWindowFocus: false,
+    retry: 0, 
+  })
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
+
+  const dryCount = data.filter(ele => ele.category === "dry")
+  const wetCount = data.filter(ele => ele.category === "wet")
+  const snackCount = data.filter(ele => ele.category === "snack")
+  const nutritionCount = data.filter(ele => ele.category === "nutrition")
+  
   return (
     <main>
       <section className='mt40'>
@@ -40,26 +56,29 @@ const Home = () => {
         <div className='sction__contents'>
           <div className='item-wrap'>
             <ul>
-              <li>
-                <p>2</p>
+              <li className={dryCount.length === 0 ? "zero" : ""}>
+                <p>{dryCount.length}</p>
                 <p>{t("dry")}</p>
               </li>
-              <li>
-                <p>10</p>
+              <li className={wetCount.length === 0 ? "zero" : ""}>
+                <p>{wetCount.length}</p>
                 <p>{t("wet")}</p>
               </li>
-              <li>
-                <p>0</p>
+              <li className={snackCount.length === 0 ? "zero" : ""}>
+                <p>{snackCount.length}</p>
                 <p>{t("snack")}</p>
               </li>
-              <li>
-                <p>2</p>
+              <li className={nutritionCount.length === 0 ? "zero" : ""}>
+                <p>{nutritionCount.length}</p>
                 <p>{t("nutrition")}</p>
               </li>
             </ul>
           </div>
           <div className='list-wrap mt40'>
-            <GroceryList/>
+            <ProductsTable
+              data={data} 
+              uid={uid}
+            />
           </div>
         </div>
       </section>

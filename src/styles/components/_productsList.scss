@@ -12,10 +12,13 @@
       font-size: $body2;
       font-weight: 700;
       color: $gray500;
+      padding-bottom: 12px;
       &.active {
-        color: $black;
-        padding-bottom: 12px;
+        a { color: $black; }
         border-bottom: 3px solid $primary-color;
+      }
+      a {
+        color: $gray500;
       }
     }
   }
