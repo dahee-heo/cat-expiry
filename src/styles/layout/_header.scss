@@ -58,12 +58,12 @@
   @include flex(column, end, start);
   div {
     width: 60px;
-    transition: 1s;
+    transition: .4s;
     border: 1px solid $gray400;
     border-radius: 20px;
     padding: 4px 8px;
     @include flex(row, center, end);
-    span {
+    .arrow {
       margin-left: 4px;
       width: 8px;
       height: 6px;
@@ -73,7 +73,7 @@
   ul {
     box-sizing: border-box;
     height: 0;
-    width: 80px;
+    width: 60px;
     display: block;
     overflow: hidden;
     background-color: $white;
@@ -81,22 +81,18 @@
     transition: height .4s ease;
     li { 
       @include flex(row, start, start);
-      margin: 8px 20px;
+      margin: 8px 10px;
       img { width: 16px; height: 16px;}
     }
   }
 }
 
 .global.active {
-  transition: 2s;
-  div { 
-    width: 80px; 
-  }
   ul {
     height: 80px;
-    overflow:visible;
+    overflow: visible;
     border: 1px solid $gray400;
-
+    z-index: 900;
     // li {
     //   height: 100%;
     // }
