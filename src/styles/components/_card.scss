@@ -12,7 +12,14 @@
   }
   &__txt {
     p { font-size: $body3; color: $gray500; }
-    h3 { font-size: $body1; font-weight: 700; }
+    h3 { 
+      font-size: $body1; 
+      font-weight: 700; 
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   &__con {
