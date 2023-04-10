@@ -1,0 +1,76 @@
+.bookmark {
+  .table-header {
+    @include flex(row, start, space);
+    border-bottom: 1px solid $gray300;
+    ul {
+      @include flex(row, start, start);
+      li {
+        margin-right: 20px;
+        font-size: $body2;
+        font-weight: 700;
+        color: $gray500;
+        &.active {
+          color: $black;
+          padding-bottom: 12px;
+          border-bottom: 3px solid $primary-color;
+        }
+      }
+    }
+    .check-del {
+      button {
+        font-size: $body3;
+        height: auto;
+        padding: 4px 6px;
+      }
+    }
+  }
+  
+  /* item */
+  .list {
+    padding: 16px 0;
+    border-bottom: 1px solid $gray200;
+    @include flex(row, center, space);
+  
+    &__info {
+      flex: 1;
+      h3 {
+        font-size: $body1;
+        font-weight: 700;
+      }
+      p {
+        font-size: $body3;
+        color: $gray500;
+      }
+    }
+    &__btn {
+      button {
+        font-size: $body3;
+        height: auto;
+        padding: 4px 6px;
+        &:last-child {
+          margin-left: 4px;
+        }
+      }
+    }
+  }
+
+  .edit-input {
+    width: 80%;
+    height: 26px;
+    font-size: $body1;
+    border: 1px solid $gray300;
+    border-radius: 5px;
+    padding: 4px;
+    margin-left: 8px;
+  }
+  
+  .no-regist {
+    text-align: center;
+    padding: 40px;
+    border-bottom: 1px solid $gray200;
+    p {
+      color: $gray500;
+      line-height: 1.3rem;
+    }
+  }
+}

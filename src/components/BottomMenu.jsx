@@ -37,9 +37,9 @@ export const BottomMenu = () => {
           </NavLink>
         </div>
         <div>
-          <NavLink to="/bookmark">
+          <NavLink to="/bookmarks">
             <BottomBookmark/>
-            <p>Bookmark</p>
+            <p>Bookmarks</p>
           </NavLink>
         </div>
         <div>
