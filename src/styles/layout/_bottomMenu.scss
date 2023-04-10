@@ -18,6 +18,12 @@
         color: $gray400;
         font-size: $body4;
         text-align: center;
+        &.active {
+          svg {
+            path { fill: $primary-color;}
+          }
+          p { color: $primary-color; }
+        }
       }
       svg {
         path { fill: $gray500;}

@@ -19,7 +19,7 @@ export const BottomMenu = () => {
       <MypageModal open={open} handleClose={handleClose}/>
       <div className='bottom-menu__wrap'>
         <div>
-          <NavLink to="/">
+          <NavLink to="/home">
             <BottomHome/>
             <p>Home</p>
           </NavLink>
@@ -43,10 +43,10 @@ export const BottomMenu = () => {
           </NavLink>
         </div>
         <div>
-          <NavLink onClick={handleOpen}>
+          <a onClick={handleOpen}>
             <BottomMy/>
             <p>My page</p>
-          </NavLink>
+          </a>
         </div>
       </div>
     </div>

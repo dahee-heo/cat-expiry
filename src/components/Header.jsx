@@ -17,13 +17,15 @@ const Header = () => {
   const navigation = useNavigate()
   const [openLng, setOpenLng] = useState(false)
   let classActive = openLng ? "active" : "";
-  const locale = localStorage.getItem("locale") ?? "ko";
   const [browserLang, setBrowserLang] = useState("KOR")
+
+  const locale = navigator.language; //현재 로컬 위치
+  localStorage.setItem("locale", locale)
 
   const handleChangeLanguage = (lang) => {
     i18n.changeLanguage(lang);
     setOpenLng(false)
-    localStorage.setItem("locale", lang)
+    localStorage.setItem("language-mode", lang)
     lang === "ko" ? setBrowserLang("KOR") : setBrowserLang("ENG")
   }
 

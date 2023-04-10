@@ -20,8 +20,6 @@ function App() {
   const queryClient = new QueryClient();
   const [loginUser, setLoginUser] = useRecoilState(users)
   const uid = loginUser.uid
-  const locale = navigator.language;
-  localStorage.setItem("locale", locale)
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
