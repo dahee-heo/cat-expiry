@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/Button'
 import { useTranslation } from "react-i18next";
 
-export const Empty = () => {
+export const Error = () => {
   const navigation = useNavigate();
   const { t } = useTranslation();
 
@@ -12,8 +12,8 @@ export const Empty = () => {
     <main className='empty'>
       <div className='empty__wrap'>
         <ErrorOutline/>
-        <h2>{t("empty.headline")}</h2>
-        <p>{t("empty.sub")}</p>
+        <h2>{t("error.headline")}</h2>
+        <p>{t("error.sub")}</p>
         <Button 
           onClick={() => navigation(-1)} 
           type="secondary" 

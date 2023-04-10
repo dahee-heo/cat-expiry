@@ -53,6 +53,16 @@
     "pleaseLogin": "Please login",
     "loginGoogle": "Log in with Google",
     "loginGuest": "Log in guest"
-  }
+  },
+
+  "empty": {
+    "headline": "Under construction",
+    "sub": "The page is being prepared, please wait a moment. Thank you."
+  }, 
+
+  "error": {
+    "headline": "Sorry, Page not found.",
+    "sub": "The page you were looking for appears to have been moved, deleted or does not exist"
+  }  
 }
      
