@@ -64,7 +64,7 @@ export const MypageModal = ({open, setMenuOpen, handleClose}) => {
               <ul className={`account__wrap${loginView ? ' active' : ''}`}>
                 {loginUser.uid
                   ? <>
-                      <li className='account__name'><span>{loginUser.displayName || '게스트'}</span>님 안녕하세요.</li>
+                      <li className='account__name'><span>{loginUser.displayName || '게스트'}</span></li>
                       <li className='logout' onClick={() => googleLogout()}>{t("mypage.logout")}</li>
                     </>
                   : <li>{t("mypage.pleaseLogin")}</li>

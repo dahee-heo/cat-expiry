@@ -19,7 +19,6 @@ export const Products = ({ uid }) => {
   const [page, setPage] = useState(1)
   const [products, setProducts] = useState([])
   
-
   const { isLoading, isError, data, error } = useQuery(
     ['products'], 
     () =>  getProducts(uid), 

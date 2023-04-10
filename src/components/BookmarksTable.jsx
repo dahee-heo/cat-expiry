@@ -42,9 +42,6 @@ export const BookmarksTable = ({ data, onDelete, uid }) => {
     return a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0;
 
   };
-useEffect(()=>{
-  console.log('sortType: ', sortType);
-}, [sortType])
   // sort((a, b) => {
   //   const sortOrderValue = sortOrder === 'asc' ? 1 : -1;
   //   if (a[sortField] > b[sortField]) {

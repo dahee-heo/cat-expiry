@@ -57,18 +57,13 @@ export const ProductsTable = ({ uid, data, searchText, onDelete }) => {
             onClick={()=>setFilterType('impending')}
           ><NavLink to='?filter=impending'>{t("impending")}</NavLink></li>
         </ul>
-        {
-          window.location.pathname === '/' 
-          ? <div className='all-view'>{t("viewAll")}</div>
-          : <div>
-              <select onChange={(e)=>{ setSoltType(e.target.value) }} ref={selectRef} defaultValue="enter" name="" id="">
-                <option value="name">{t("sortAlphabet")}</option>
-                <option value="enter">{t("sortRegistration")}</option>
-                <option value="expire">{t("sortExpiration")}</option>
-              </select>
-            </div>
-        }
-        
+        <div>
+          <select onChange={(e)=>{ setSoltType(e.target.value) }} ref={selectRef} defaultValue="enter" name="" id="">
+            <option value="name">{t("sortAlphabet")}</option>
+            <option value="enter">{t("sortRegistration")}</option>
+            <option value="expire">{t("sortExpiration")}</option>
+          </select>
+        </div>
       </div>
       { data 
         ? <div>

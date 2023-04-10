@@ -34,9 +34,9 @@ export const Card = ({ data }) => {
             <h3>{data.name}</h3>
           </div>
           <div className='card__con'>
-            <p>D-{dday}</p>
+            <p>{dday >= 0 ? `D-${dday}` : `D+${Math.abs(dday)}`}</p>
             <div className='progress'>
-            <progress value={progress} max={period}></progress>
+            <progress value={progress > 0 ? progress : 100} max={period}></progress>
             </div>
           </div>
         </div>
