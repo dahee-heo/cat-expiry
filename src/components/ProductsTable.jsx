@@ -5,54 +5,44 @@ import { itemsRead } from '../service/items.service';
 import { ProductsTableList } from './ProductsTableList';
 
 export const ProductsTable = ({ uid, data, searchText, onDelete }) => {
-  const { t } = useTranslation();
-  const home = true;
-  const [items, setItems] = useState(null);
-  const [filter, setFilter] = useState("all");
+  const [products, setProducts] = useState([]);
+  const [filterType, setFilterType] = useState("all");
+  const [sortType, setSoltType] = useState("enter")
   const [searchParams, setSearchParams] = useSearchParams('')
   const tableFilter = searchParams.get('filter');
   const selectRef = useRef();
-  const [itemsData, setItemsData] = useState([])
+  const { t } = useTranslation();
 
   const activeClass = (params) => {
-    if (filter === params) {
+    if (filterType === params) {
       return " active";
     } else {
       return "";
     }
   }
 
-  const sort = (event) => {
-    data.sort(compare(event.target.value));
+  const dataSort = (type) => {
+    const sortedData = data?.sort(compare(type))
+    return sortedData;
   }
+  
+  useEffect(()=>{
+    dataSort(sortType)
+  }, [sortType])
 
   const compare = (key) => (a, b) => {
-    return a[key] > a[key] ? 1 : a[key] < b[key] ? -1 : 0;
+    return a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0;
   };
 
-  const tabContents = () => {
-    const result = data.filter((ele) => {
+  //탭 필터, 셀렉트 값 정렬
+  const filteredData = data?.filter((ele) => {
+    if (filterType === "all") return ele;
+    if (filterType === "impending") { 
       const date = new Date(ele.expire)
       const now = Date.now()
-      return now - date < 30 * 30 * 24 * 3
-    })
-
-    if (result) setItems(result)
-    console.log('result: ', result);
-  }
-
-
-  // const onSubmit = async (event) => {
-  //   event.preventDefault();
-  //   if (uid) { await loadItems() }
-  // }
-
-  // const deleteItems = async (grocery) => {
-  //   await itemsDelete(grocery, uid)
-  //   if (uid) { await loadItems() }
-  // }
-
-
+      return date.getTime() - now < 1000 * 60 * 60 * 24 * 7
+    }
+  }).sort(compare(sortType))
 
   return (
     <>
@@ -60,22 +50,18 @@ export const ProductsTable = ({ uid, data, searchText, onDelete }) => {
         <ul className='tab-menu'>
           <li 
             className={activeClass('all')}
-            onClick={()=>setFilter('all')}
+            onClick={()=>setFilterType('all')}
           ><NavLink to='?filter=all'>{t("all")}</NavLink></li>
           <li 
             className={activeClass('impending')}
-            onClick={()=>setFilter('impending')}
+            onClick={()=>setFilterType('impending')}
           ><NavLink to='?filter=impending'>{t("impending")}</NavLink></li>
-          <li 
-            className={activeClass('finished')}
-            onClick={()=>setFilter('finished')}
-          ><NavLink to='?filter=finished'>{t("finished")}</NavLink></li>
         </ul>
         {
           window.location.pathname === '/' 
           ? <div className='all-view'>{t("viewAll")}</div>
           : <div>
-              <select onChange={sort} ref={selectRef} defaultValue="enter" name="" id="">
+              <select onChange={(e)=>{ setSoltType(e.target.value) }} ref={selectRef} defaultValue="enter" name="" id="">
                 <option value="name">{t("sortAlphabet")}</option>
                 <option value="enter">{t("sortRegistration")}</option>
                 <option value="expire">{t("sortExpiration")}</option>
@@ -86,10 +72,10 @@ export const ProductsTable = ({ uid, data, searchText, onDelete }) => {
       </div>
       { data 
         ? <div>
-            {data.map(product => {
+            {filteredData?.map(product => {
               return (
                 <ProductsTableList 
-                  items={product}
+                  data={product}
                   onDelete={onDelete}
                 />
               )
