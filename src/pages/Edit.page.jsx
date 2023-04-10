@@ -56,14 +56,14 @@ export const Edit = ({ uid }) => {
     setKeyword(product?.name)
   }, [product])
 
-  const onChange = (e) => {
+  const handleInputChange = (e) => {
     setInputData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value
     }))
   }
 
-  const onKeywordChange = (e) => {
+  const handleKeywordChange = (e) => {
     setKeyword(e.target.value);
     setInputData((prevState) => ({
       ...prevState,
@@ -97,7 +97,7 @@ export const Edit = ({ uid }) => {
 
   if (isLoading || isFetching) return <Loading />;
 
-  const onEdit = () => {
+  const handleEdit = () => {
     const registData = {inputData, uid, key}
     mutation.mutate(registData)
   }
@@ -113,7 +113,7 @@ if (inputData) {
         <div className='select-box'>
           <label htmlFor="cartegory">{t("category")}</label>
           <select name="category" style={{width: "100%"}} id="category" 
-            onChange={onChange}
+            onChange={handleInputChange}
             value={inputData.category}
           >
             <option value="dry">{t("dry")}</option>
@@ -130,7 +130,7 @@ if (inputData) {
             id="name" 
             value={inputData.name}
             placeholder={`${t("regist.namePlaceholder")}`}
-            onChange={onKeywordChange}
+            onChange={handleKeywordChange}
           />
           { searchList.length > 0 && keyword && (
             <div className='auto-search'>
@@ -169,7 +169,7 @@ if (inputData) {
           <input
             type='date'
             name="expire"
-            onChange={onChange}
+            onChange={handleInputChange}
             value={inputData.expire}
           />
         </div>
@@ -184,7 +184,7 @@ if (inputData) {
             width="49%" 
             type="primary" 
             text={`${t("modify")}`}
-            onClick={onEdit}
+            onClick={handleEdit}
           />
         </div>
       </form>

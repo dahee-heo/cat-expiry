@@ -5,7 +5,7 @@ import { NavLink, useSearchParams } from 'react-router-dom';
 import { patchBookmarks } from '../service/bookmarks.service';
 import { BookmarksTableList } from './BookmarksTableList';
 
-export const BookmarksTable = ({ data, onDelete, uid }) => {
+export const BookmarksTable = ({ data, handleDelete, uid }) => {
   const [sortType, setSortType] = useState("registration");
   const [searchParams, setSearchParams] = useSearchParams('')
   // const tableFilter = searchParams.get('filter');
@@ -27,31 +27,11 @@ export const BookmarksTable = ({ data, onDelete, uid }) => {
     }
   }
 
-  // const dataSort = (type) => {
-  //   const typeChange = type === "registration" ? "enter" : "name";
-  //   const sortedData = data?.sort(compare(typeChange))
-  //   return sortedData;
-  // }
-
-  // useEffect(()=>{
-  //   dataSort(sortType)
-  // }, [sortType])
-
   const compare = (type) => (a, b) => {
     const key = type === "registration" ? "enter" : "name"
     return a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0;
 
   };
-  // sort((a, b) => {
-  //   const sortOrderValue = sortOrder === 'asc' ? 1 : -1;
-  //   if (a[sortField] > b[sortField]) {
-  //     return sortOrderValue;
-  //   }
-  //   if (a[sortField] < b[sortField]) {
-  //     return -sortOrderValue;
-  //   }
-  //   return 0;
-  // });
 
   //탭 필터, 셀렉트 값 정렬
   const filteredData = data?.sort(compare(sortType))
@@ -73,7 +53,7 @@ export const BookmarksTable = ({ data, onDelete, uid }) => {
           <Button 
             type="primary"
             text={`${t("selectionDelete")}`}
-            onClick={() => onDelete(checkedArray)}
+            onClick={() => handleDelete(checkedArray)}
           />
         </div>
       </div>
@@ -85,7 +65,7 @@ export const BookmarksTable = ({ data, onDelete, uid }) => {
                   <BookmarksTableList 
                     bookmark={bookmark} 
                     uid={uid}
-                    onDelete={onDelete}
+                    handleDelete={handleDelete}
                     checked={checked}
                   />
                 )

@@ -50,14 +50,14 @@ export const Regist = ({ uid }) => {
   }, [keyword])
 
 
-  const onChange = (e) => {
+  const handleInputChange = (e) => {
     setInputData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }))
   }
 
-  const onKeywordChange = (e) => {
+  const handleKeywordChange = (e) => {
     setKeyword(e.target.value);
     setInputData((prevState) => ({
       ...prevState,
@@ -65,7 +65,7 @@ export const Regist = ({ uid }) => {
     }))
   }
 
-  const onRegist = () => {
+  const handleRegist = () => {
     const registData = {inputData, uid}
     mutation.mutate(registData)
     navigate('/products')
@@ -79,7 +79,7 @@ export const Regist = ({ uid }) => {
         </h2>
         <div className='select-box'>
           <label htmlFor="cartegory">{t("category")}</label>
-          <select name="category" style={{width: "100%"}} id="category" onChange={onChange}>
+          <select name="category" style={{width: "100%"}} id="category" onChange={handleInputChange}>
             <option value="dry">{t("dry")}</option>
             <option value="wet">{t("wet")}</option>
             <option value="snack">{t("snack")}</option>
@@ -94,7 +94,7 @@ export const Regist = ({ uid }) => {
             id="name" 
             placeholder={`${t("regist.namePlaceholder")}`}
             value={inputData.name}
-            onChange={onKeywordChange}
+            onChange={handleKeywordChange}
           />
           { searchList.length > 0 && keyword && (
             <div className='auto-search'>
@@ -133,7 +133,7 @@ export const Regist = ({ uid }) => {
           <input
             type='date'
             name="expire"
-            onChange={onChange}
+            onChange={handleInputChange}
           />
         </div>
         <div className='btn-wrap'>
@@ -147,7 +147,7 @@ export const Regist = ({ uid }) => {
             width="49%" 
             type="primary" 
             text={`${t("register")}`}
-            onClick={onRegist}
+            onClick={handleRegist}
           />
         </div>
       </form>

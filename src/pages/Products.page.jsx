@@ -32,11 +32,15 @@ export const Products = ({ uid }) => {
     }
   )
     
-  const mutation = useMutation((deleteData) => deleteProducts(deleteData), {
-    onSuccess: (data, variables, context) => {
-      queryClient.invalidateQueries(['products']);
+  const mutation = useMutation(
+    (deleteData) => deleteProducts(deleteData), 
+    {
+      onSuccess: (data, variables, context) => {
+        console.log('data, variables, context: ', data, variables, context);
+        queryClient.invalidateQueries(['products']);
+      },
     },
-  })
+  )
 
   const searchResult = () => {
     let result = data?.filter((list) => {
@@ -59,7 +63,7 @@ export const Products = ({ uid }) => {
     setSearchText(event.target.value)
   }
 
-  const onDelete = (key) => {
+  const handleDelete = (key) => {
     const deleteData = {key, uid}
     mutation.mutate(deleteData)
   }
@@ -106,7 +110,7 @@ export const Products = ({ uid }) => {
           <ProductsTable
             data={pageData}
             searchText={searchText}
-            onDelete={onDelete}
+            handleDelete={handleDelete}
           />
     </div>
       </div>

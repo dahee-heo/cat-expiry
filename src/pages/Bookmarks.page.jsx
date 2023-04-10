@@ -60,14 +60,14 @@ export const Bookmarks = ({ uid }) => {
   }
 
 
-  const onChange = (e) => {
+  const handleInputChange = (e) => {
     setInputData((prevState) => ({
       ...prevState,
       name: e.target.value
     }))
   }
 
-  const onRegist = async () => {
+  const handleRegist = async () => {
     if (inputData.name.length === 0) {
       alert('한 글자 이상 입력해주세요.');
       return;
@@ -78,7 +78,7 @@ export const Bookmarks = ({ uid }) => {
     // navigate('/bookmarks')
   }
 
-  const onDelete = (keyArray) => {
+  const handleDelete = (keyArray) => {
     const deleteData = {keyArray, uid}
     deleteBookmark.mutate(deleteData)
   }
@@ -90,10 +90,10 @@ export const Bookmarks = ({ uid }) => {
           type="text"
           name='name'
           placeholder={`${t("bookmark.placeholder")}`}
-          onChange={onChange}
+          onChange={handleInputChange}
           value={inputData.name}
         />
-        <button className='write-icon' onClick={onRegist}>
+        <button className='write-icon' onClick={handleRegist}>
           <span></span>
         </button>
       </form>
@@ -107,7 +107,7 @@ export const Bookmarks = ({ uid }) => {
         <div className='list-wrap mt40'>
           <BookmarksTable 
             data={pageData}
-            onDelete={onDelete}
+            handleDelete={handleDelete}
             uid={uid}
           />
         </div>

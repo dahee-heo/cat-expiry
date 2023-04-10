@@ -7,7 +7,7 @@ import { Button } from './Button';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { patchBookmarks } from '../service/bookmarks.service';
 
-export const BookmarksTableList = ({uid, bookmark, onDelete, checked}) => {
+export const BookmarksTableList = ({uid, bookmark, handleDelete, checked}) => {
   const { t } = useTranslation();
   const navigate = useNavigate()
   const [edit, setEdit] = useState(false)
@@ -27,7 +27,7 @@ export const BookmarksTableList = ({uid, bookmark, onDelete, checked}) => {
     },
   )
 
-  const onChange = (event) => {
+  const handleInputChange = (event) => {
     setInputData((prevState)=>{
       return {
         ...prevState,
@@ -36,7 +36,7 @@ export const BookmarksTableList = ({uid, bookmark, onDelete, checked}) => {
     })
   }
 
-  const onEdit = (key) => {
+  const handleEdit = (key) => {
     setClickKey(key)
     if (!edit) {
       setEdit(true)
@@ -63,7 +63,7 @@ export const BookmarksTableList = ({uid, bookmark, onDelete, checked}) => {
                 type="text" 
                 className='edit-input'
                 value={inputData.name}
-                onChange={onChange}
+                onChange={handleInputChange}
               /> 
             : <h3 className='item-name ml8 mb4'>{bookmark.name}</h3>
           }
@@ -72,7 +72,7 @@ export const BookmarksTableList = ({uid, bookmark, onDelete, checked}) => {
           <Button 
             type="secondary" 
             text={`${t("modification")}`}
-            onClick={() => onEdit(bookmark.key)}
+            onClick={() => handleEdit(bookmark.key)}
           />
           {edit && clickKey === bookmark.key
           ? <Button 
@@ -83,7 +83,7 @@ export const BookmarksTableList = ({uid, bookmark, onDelete, checked}) => {
           : <Button
             type="secondary" 
             text={`${t("delete")}`}
-            onClick={() => onDelete([bookmark.key])}
+            onClick={() => handleDelete([bookmark.key])}
           /> }
         </div>
       </div>

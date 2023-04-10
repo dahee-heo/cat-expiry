@@ -4,7 +4,7 @@ import { NavLink, useSearchParams } from 'react-router-dom';
 import { itemsRead } from '../service/items.service';
 import { ProductsTableList } from './ProductsTableList';
 
-export const ProductsTable = ({ uid, data, searchText, onDelete }) => {
+export const ProductsTable = ({ uid, data, searchText, handleDelete }) => {
   const [products, setProducts] = useState([]);
   const [filterType, setFilterType] = useState("all");
   const [sortType, setSoltType] = useState("enter")
@@ -71,7 +71,7 @@ export const ProductsTable = ({ uid, data, searchText, onDelete }) => {
               return (
                 <ProductsTableList 
                   data={product}
-                  onDelete={onDelete}
+                  handleDelete={handleDelete}
                 />
               )
             })}

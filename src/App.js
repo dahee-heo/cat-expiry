@@ -1,7 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home.page';
-import Items from './pages/Items.page';
-import Groceries from './pages/Groceries.page';
 import Header from './components/Header';
 import { Suspense, useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -31,10 +29,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Home uid={uid}/>}></Route>
         <Route path='/home' element={<Home uid={uid}/>}></Route>
-        <Route path='/items' element={<Items uid={uid} />}></Route>
         <Route path='/products' element={<Products uid={uid} />}></Route>
         <Route path='/regist' element={<Regist uid={uid} />}></Route>
-        {/* <Route path='/groceries' element={<Groceries uid={uid} />}></Route> */}
         <Route path='/bookmarks' element={<Bookmarks uid={uid}/>}></Route>
         <Route path='/side-menu' element={<MypageModal />}></Route>
         <Route path='/empty' element={<Empty />}></Route>

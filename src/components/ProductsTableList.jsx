@@ -5,7 +5,7 @@ import { MoreVert } from '@material-ui/icons';
 import { useTranslation } from "react-i18next";
 import { Link } from 'react-router-dom';
 
-export const ProductsTableList = ({ data, onDelete }) => {
+export const ProductsTableList = ({ data, handleDelete }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [anchorMenu, setAnchorMenu] = useState(null);
   const { t } = useTranslation();
@@ -28,11 +28,14 @@ export const ProductsTableList = ({ data, onDelete }) => {
   const expire = new Date(data.expire)
   const dday = dayConvert(expire.getTime() - now)
   
+  const onDelete = (key) => {
+    handleDelete(key);
+    handleMenuClose()
+  }
   
 
   return (
     <>
-      
       <div className='list'>
         <div className='list__info'>
           <h3 className='item-name mb4'>{data.name}</h3>

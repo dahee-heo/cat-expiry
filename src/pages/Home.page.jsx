@@ -16,7 +16,6 @@ const Home = ({ uid }) => {
   const { isLoading, isError, data, error } = useQuery(['products'], () => getProducts(uid), {
     refetchOnMount: true,
     refetchOnWindowFocus: true,
-    retry: 3, 
     cacheTime: 1000 * 30,
     isFetchedAfterMount: true,
     // initialData: () =>
@@ -60,9 +59,9 @@ const Home = ({ uid }) => {
           <div className='sction__contents'>
             <div className='card-list'>
               <div className='card-container'>
-                {dday.map((ele, idx) => {
+                {dday.map((ele) => {
                   return (
-                    <Card key={idx} data={ele}/>
+                    <Card data={ele}/>
                   )
                 })}
               </div>
