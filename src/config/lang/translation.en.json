@@ -21,7 +21,8 @@
   "cancel": "cancel",
   "registration": "registration",
   "register": "register",
-  
+  "guest": "guest",
+
   "dday": {
     "title": "D-day",
     "description": "There are products that are close to expiration."

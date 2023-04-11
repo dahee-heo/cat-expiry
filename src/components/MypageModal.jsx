@@ -14,7 +14,6 @@ import { useTranslation } from "react-i18next";
 export const MypageModal = ({open, setMenuOpen, handleClose}) => {
   const [loginUser, setLoginUser] = useRecoilState(users)
   const [loginView, setLoginView] = useState(false)
-  // const expireCount = useRecoilValue(countSelector)
   const navigate = useNavigate()
   const { t } = useTranslation();
 
@@ -64,7 +63,7 @@ export const MypageModal = ({open, setMenuOpen, handleClose}) => {
               <ul className={`account__wrap${loginView ? ' active' : ''}`}>
                 {loginUser.uid
                   ? <>
-                      <li className='account__name'><span>{loginUser.displayName || '게스트'}</span></li>
+                      <li className='account__name'><span>{loginUser.displayName || `${t("guest")}`}</span></li>
                       <li className='logout' onClick={() => googleLogout()}>{t("mypage.logout")}</li>
                     </>
                   : <li>{t("mypage.pleaseLogin")}</li>
