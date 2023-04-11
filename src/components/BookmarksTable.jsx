@@ -5,14 +5,13 @@ import { NavLink, useSearchParams } from 'react-router-dom';
 import { patchBookmarks } from '../service/bookmarks.service';
 import { BookmarksTableList } from './BookmarksTableList';
 
-export const BookmarksTable = ({ data, handleDelete, uid }) => {
-  const [sortType, setSortType] = useState("registration");
+export const BookmarksTable = ({ data, handleDelete, uid, filter, setFilter }) => {
   const [searchParams, setSearchParams] = useSearchParams('')
   // const tableFilter = searchParams.get('filter');
   const { t } = useTranslation();
 
   const activeClass = (params) => {
-    if (sortType === params) {
+    if (filter === params) {
       return " active";
     } else {
       return "";
@@ -27,27 +26,18 @@ export const BookmarksTable = ({ data, handleDelete, uid }) => {
     }
   }
 
-  const compare = (type) => (a, b) => {
-    const key = type === "registration" ? "enter" : "name"
-    return a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0;
-
-  };
-
-  //탭 필터, 셀렉트 값 정렬
-  const filteredData = data?.sort(compare(sortType))
-
   return (
     <>
       <div className='table-header'>
         <ul className='tab-menu'>
         <li 
-            className={activeClass('registration')}
-            onClick={()=>setSortType('registration')}
-          ><NavLink to='?filter=registration'>{t("sortRegistration")}</NavLink></li>
+            className={activeClass('enter')}
+            onClick={()=>setFilter('enter')}
+          ><NavLink to='?filter=enter'>{t("sortRegistration")}</NavLink></li>
           <li 
-            className={activeClass('alphabet')}
-            onClick={()=>setSortType('alphabet')}
-          ><NavLink to='?filter=alphabet'>{t("sortAlphabet")}</NavLink></li>
+            className={activeClass('name')}
+            onClick={()=>setFilter('name')}
+          ><NavLink to='?filter=name'>{t("sortAlphabet")}</NavLink></li>
         </ul>
         <div className='check-del'>
           <Button 
@@ -60,7 +50,7 @@ export const BookmarksTable = ({ data, handleDelete, uid }) => {
       { data 
         ? <div>
             {
-              filteredData?.map(bookmark => {
+              data?.map(bookmark => {
                 return (
                   <BookmarksTableList 
                     bookmark={bookmark} 

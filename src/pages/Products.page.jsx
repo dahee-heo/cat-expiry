@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { SearchOutlined } from '@material-ui/icons'
 import { ProductsTable } from '../components/ProductsTable'
 import { useNavigate, useSearchParams } from 'react-router-dom'
@@ -8,6 +8,7 @@ import { deleteProducts, getProducts } from '../service/products.service';
 import { Loading } from './Loading';
 import { Box, Pagination } from '@mui/material';
 import usePagination from '../hook/usePagination';
+import { ErrorAlert } from '../components/ErrorAlert';
 
 export const Products = ({ uid }) => {
   const [searchParams, setSearchParams] = useSearchParams('')
@@ -17,18 +18,21 @@ export const Products = ({ uid }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient()
   const [page, setPage] = useState(1)
-  const [products, setProducts] = useState([])
-  
+
+  const [filter, setFilter] = useState("all");
+  const [sortType, setSortType] = useState("enter")
+
   const { isLoading, isError, data, error } = useQuery(
-    ['products'], 
-    () =>  getProducts(uid), 
+    ['products', filter, sortType], 
+    () =>  getProducts(uid, filter, sortType), 
     {
+      refetchOnMount: true,
       refetchOnWindowFocus: true,
-      cacheTime: 0,
       enabled: true,
       initialData: () =>
       queryClient
       .getQueryData(['products']),
+      select: data => data.filter(list => list.name.includes(searchText))
     }
   )
     
@@ -36,29 +40,11 @@ export const Products = ({ uid }) => {
     (deleteData) => deleteProducts(deleteData), 
     {
       onSuccess: (data, variables, context) => {
-        console.log('data, variables, context: ', data, variables, context);
         queryClient.invalidateQueries(['products']);
       },
     },
   )
 
-  const searchResult = () => {
-    let result = data?.filter((list) => {
-      return list.name.includes(searchText) === true
-    })
-    setProducts(result)
-  } 
-
-  useEffect(()=>{
-    if(!searchText) setProducts(data)
-    const debounce = setTimeout(() => {
-      if(searchText) searchResult()
-    }, 200)
-    return () => {
-      clearTimeout(debounce)
-    }  
-  }, [searchText])
-  
   const handleSearchChange = (event) => {
     setSearchText(event.target.value)
   }
@@ -70,20 +56,15 @@ export const Products = ({ uid }) => {
 
   //페이지네이션
   const listNum = 10;
-  const _data = usePagination(products, listNum)
+  const _data = usePagination(data, listNum)
   const handlePagination = (e, p) => {
     setPage(p);
     _data.jump(p)
   }
   const pageData = _data.currentData()
   
-  if (isLoading) { 
-    return <Loading />; 
-  }
-
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
+  if (isLoading) { return <Loading />; }
+  if (isError) { return <ErrorAlert error={error} />; }
 
   return (
     <main className='products'>
@@ -111,6 +92,9 @@ export const Products = ({ uid }) => {
             data={pageData}
             searchText={searchText}
             handleDelete={handleDelete}
+            filter={filter}
+            setFilter={setFilter}
+            setSortType={setSortType}
           />
     </div>
       </div>

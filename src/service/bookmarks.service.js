@@ -2,7 +2,7 @@ import axios from "axios";
 
 const hostUrl = process.env.REACT_APP_DATABASE_URL;
 
-export const getBookmarks = async (uid) => {
+export const getBookmarks = async (uid, filter) => {
   const { data } = await axios.get(`${hostUrl}/${uid}/bookmarks.json`)
   //파이어베이스 [키:{오브젝트}] 유형 [{오브젝트}] 유형으로 변경
   const dataArray = [];
@@ -11,7 +11,12 @@ export const getBookmarks = async (uid) => {
     bookmark.key = key
     dataArray.push(bookmark)
   }
-  return dataArray;
+
+  const compare = (filterType) => (a, b) => {
+    return a[filterType] > b[filterType] ? 1 : a[filterType] < b[filterType] ? -1 : 0;
+  };
+  const filteredData = filter === "name" ? dataArray.sort(compare(filter)) : dataArray;
+  return filteredData;
 }
 
 export const postBookmarks = async (params) => {

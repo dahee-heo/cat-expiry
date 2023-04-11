@@ -22,27 +22,29 @@ function App() {
   const uid = loginUser.uid
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Header />
-      <Routes>
-        <Route path='/' element={<Home uid={uid}/>}></Route>
-        <Route path='/home' element={<Home uid={uid}/>}></Route>
-        <Route path='/products' element={<Products uid={uid} />}></Route>
-        <Route path='/regist' element={<Regist uid={uid} />}></Route>
-        <Route path='/bookmarks' element={<Bookmarks uid={uid}/>}></Route>
-        <Route path='/side-menu' element={<MypageModal />}></Route>
-        <Route path='/empty' element={<Empty />}></Route>
-        <Route path='/edit' element={<Edit />}></Route>
-        <Route 
-          path='/edit/:key' element={
-            <PrivateRoute
-              authenticated={uid}
-              component={<Edit uid={uid}/>}
-            />
-          }></Route>
-      </Routes>
-      <BottomMenu/>
-    </Suspense>
+    // <Suspense fallback={<div>Loading...</div>}>
+      <>
+        <Header />
+        <Routes>
+          <Route path='/' element={<Home uid={uid}/>}></Route>
+          <Route path='/home' element={<Home uid={uid}/>}></Route>
+          <Route path='/products' element={<Products uid={uid} />}></Route>
+          <Route path='/regist' element={<Regist uid={uid} />}></Route>
+          <Route path='/bookmarks' element={<Bookmarks uid={uid}/>}></Route>
+          <Route path='/side-menu' element={<MypageModal />}></Route>
+          <Route path='/empty' element={<Empty />}></Route>
+          <Route path='/edit' element={<Edit />}></Route>
+          <Route 
+            path='/edit/:key' element={
+              <PrivateRoute
+                authenticated={uid}
+                component={<Edit uid={uid}/>}
+              />
+            }></Route>
+        </Routes>
+        <BottomMenu/>
+      </>
+    // </Suspense>
   );
 }
 

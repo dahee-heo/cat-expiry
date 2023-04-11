@@ -7,27 +7,30 @@ import { useQuery, useQueryClient } from 'react-query';
 import { getProducts } from '../service/products.service';
 import { Loading } from './Loading';
 import { Error } from './Error.page';
+import { ErrorAlert } from '../components/ErrorAlert';
 
 const Home = ({ uid }) => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const [filter, setFilter] = useState("all");
+  const [sortType, setSortType] = useState("enter")
 
-  const { isLoading, isError, data, error } = useQuery(['products'], () => getProducts(uid), {
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
-    cacheTime: 1000 * 30,
-    isFetchedAfterMount: true,
-    // initialData: () =>
-    //   queryClient
-    //     .getQueryData(['products'])
-    // ?.find((list) => list.uid === uid),
-    
-  })
-  
+  const { isLoading, isError, data, error } = useQuery(
+    ['products', filter, sortType], 
+    () =>  getProducts(uid, filter, sortType), 
+    {
+      refetchOnMount: true,
+      refetchOnWindowFocus: true,
+      enabled: true,
+      // initialData: () =>
+      // queryClient
+      // .getQueryData(['products']),
+    }
+  )
+
   if (isLoading) { return <Loading />; }
-  if (isError) { return <Error />;
-  }
+  if (isError) { return <ErrorAlert error={error} />; }
 
   const dryCount = data.filter(ele => ele.category === "dry")
   const wetCount = data.filter(ele => ele.category === "wet")
@@ -100,8 +103,10 @@ const Home = ({ uid }) => {
           </div>
           <div className='list-wrap mt40'>
             <ProductsTable
-              data={data.slice(1,6)} 
-              uid={uid}
+              data={data.slice(0,5)} 
+              filter={filter}
+              setFilter={setFilter}
+              setSortType={setSortType}
             />
           </div>
         </div>

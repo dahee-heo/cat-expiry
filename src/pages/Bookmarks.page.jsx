@@ -8,6 +8,7 @@ import { Loading } from './Loading';
 import { Box, Pagination } from '@mui/material';
 import usePagination from '../hook/usePagination';
 import { format } from 'date-fns';
+import { ErrorAlert } from '../components/ErrorAlert';
 
 export const Bookmarks = ({ uid }) => {
   const { t } = useTranslation();
@@ -18,11 +19,16 @@ export const Bookmarks = ({ uid }) => {
   })
   const queryClient = useQueryClient()
   const [page, setPage] = useState(1)
+  const [filter, setFilter] = useState("enter");
+  console.log('filter: ', filter);
 
-  const { isLoading, isError, data, error } = useQuery(['bookmarks'], () => getBookmarks(uid), {
-    refetchOnWindowFocus: false,
-    retry: 0, 
-  })
+  const { isLoading, isError, data, error } = useQuery(
+    ['bookmarks', filter], 
+    () => getBookmarks(uid, filter), {
+      refetchOnWindowFocus: false,
+      retry: 0, 
+    }
+  )
 
   const mutation = useMutation(
     (registData) => postBookmarks(registData), 
@@ -51,14 +57,8 @@ export const Bookmarks = ({ uid }) => {
   }
   const pageData = _data.currentData()
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
-
+  if (isLoading) { return <Loading />; }
+  if (isError) { return <ErrorAlert error={error} />; }
 
   const handleInputChange = (e) => {
     setInputData((prevState) => ({
@@ -75,7 +75,6 @@ export const Bookmarks = ({ uid }) => {
     const registData = {inputData, uid}
     mutation.mutate(registData)
     setInputData("")
-    // navigate('/bookmarks')
   }
 
   const handleDelete = (keyArray) => {
@@ -109,6 +108,8 @@ export const Bookmarks = ({ uid }) => {
             data={pageData}
             handleDelete={handleDelete}
             uid={uid}
+            filter={filter}
+            setFilter={setFilter}
           />
         </div>
       </div>

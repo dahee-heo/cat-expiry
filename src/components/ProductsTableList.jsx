@@ -65,10 +65,12 @@ export const ProductsTableList = ({ data, handleDelete }) => {
                 open={menuOpen}
                 onClose={handleMenuClose}
                 PaperProps={{
-                  style: { width: '80px' },
+                  style: { width: '80px', color: "#757575" },
                 }}
               >
-                <Link to={`/edit/${data.key}`}><MenuItem onClick={handleModal}>{t("modification")}</MenuItem></Link>
+                <Link to={`/edit/${data.key}`} style={{color: "#757575"}} >
+                  <MenuItem onClick={handleModal}>{t("modification")}</MenuItem>
+                </Link>
                 <MenuItem onClick={() => onDelete(data.key)}>{t("delete")}</MenuItem>
               </Menu>
             </div>
