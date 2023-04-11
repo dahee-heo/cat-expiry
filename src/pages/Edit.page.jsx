@@ -1,36 +1,82 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from '../components/Button';
 import { useTranslation } from "react-i18next";
 import { format } from 'date-fns';
-import { postProducts } from '../service/products.service';
-import { useQuery, useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
+import { getProduct, patchProducts } from '../service/products.service';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Error } from './Error.page';
+import axios from 'axios';
+import { Loading } from './Loading';
 import { getBookmarks } from '../service/bookmarks.service';
 
-export const Regist = ({ uid }) => {
+export const Edit = ({ uid }) => {
+  const [searchList, setSearchList] = useState([])
+  const [listClick, setListClick] = useState(false)
   const [inputData, setInputData] = useState({
-    category: "dry",
+    category: "",
     name: "",
-    enter: format(new Date(), 'yyyy-MM-dd'),
+    enter: null,
     expire: null,
   })
   const [keyword, setKeyword] = useState("")
-  const [searchList, setSearchList] = useState([])
-  const [listClick, setListClick] = useState(false)
+  const queryClient = useQueryClient()
+  const { key } = useParams();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const ref = useRef()
+  const params = {key, uid}
 
-  const { isLoading, isError, data, error } = useQuery(
+  const { isLoading, isError, data: product, error, isFetching } = useQuery(
+    ['product'], 
+    (() => getProduct(params)), {
+      cacheTime:100000,
+      refetchOnMount: true,
+      refetchOnWindowFocus:false,
+      retry: 3, 
+    },
+  )
+
+  const mutation = useMutation(
+    (registData) => patchProducts(registData), 
+    {
+      onSuccess: (data, variables, context) => {
+        queryClient.invalidateQueries(['product']);
+        navigate('/products')
+      },
+    },
+  )
+
+  useEffect(()=>{
+    setInputData({
+      category: product?.category,
+      name: product?.name,
+      enter: product?.enter,
+      expire: product?.expire,
+    })
+    setKeyword(product?.name)
+  }, [product])
+
+  const handleInputChange = (e) => {
+    setInputData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value
+    }))
+  }
+
+  const handleKeywordChange = (e) => {
+    setKeyword(e.target.value);
+    setInputData((prevState) => ({
+      ...prevState,
+      name: e.target.value,
+    }))
+  }
+
+  const { data } = useQuery(
     ['bookmarks'], 
     () => getBookmarks(uid), {
       refetchOnWindowFocus: false,
       retry: 3, 
     },
-  )
-  
-  const mutation = useMutation(
-    (registData) => postProducts(registData)
   )
 
   const searchResult = () => {
@@ -49,37 +95,27 @@ export const Regist = ({ uid }) => {
     }
   }, [keyword])
 
+  if (isLoading || isFetching) return <Loading />;
 
-  const handleInputChange = (e) => {
-    setInputData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }))
-  }
-
-  const handleKeywordChange = (e) => {
-    setKeyword(e.target.value);
-    setInputData((prevState) => ({
-      ...prevState,
-      name: e.target.value,
-    }))
-  }
-
-  const handleRegist = () => {
-    const registData = {inputData, uid}
+  const handleEdit = () => {
+    const registData = {inputData, uid, key}
     mutation.mutate(registData)
-    navigate('/products')
   }
 
+  // if ( Object.keys(props).lengh === 0 ) return <Error />
+if (inputData) {
   return (
     <main className='regist'>
       <form onSubmit={(e)=>{e.preventDefault()}}>
         <h2>
-          {t("registration")}
+          {t("modification")}
         </h2>
         <div className='select-box'>
           <label htmlFor="cartegory">{t("category")}</label>
-          <select name="category" style={{width: "100%"}} id="category" onChange={handleInputChange}>
+          <select name="category" style={{width: "100%"}} id="category" 
+            onChange={handleInputChange}
+            value={inputData.category}
+          >
             <option value="dry">{t("dry")}</option>
             <option value="wet">{t("wet")}</option>
             <option value="snack">{t("snack")}</option>
@@ -92,8 +128,8 @@ export const Regist = ({ uid }) => {
             type="text" 
             name="name" 
             id="name" 
-            placeholder={`${t("regist.namePlaceholder")}`}
             value={inputData.name}
+            placeholder={`${t("regist.namePlaceholder")}`}
             onChange={handleKeywordChange}
           />
           { searchList.length > 0 && keyword && (
@@ -125,7 +161,7 @@ export const Regist = ({ uid }) => {
             type='date'
             name="enter"
             disabled
-            defaultValue={inputData.enter}
+            value={inputData.enter}
           />
         </div>
         <div>
@@ -134,6 +170,7 @@ export const Regist = ({ uid }) => {
             type='date'
             name="expire"
             onChange={handleInputChange}
+            value={inputData.expire}
           />
         </div>
         <div className='btn-wrap'>
@@ -146,11 +183,12 @@ export const Regist = ({ uid }) => {
           <Button 
             width="49%" 
             type="primary" 
-            text={`${t("register")}`}
-            onClick={handleRegist}
+            text={`${t("modify")}`}
+            onClick={handleEdit}
           />
         </div>
       </form>
     </main>
   )
+}
 }

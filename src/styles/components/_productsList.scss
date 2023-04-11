@@ -1,5 +1,9 @@
+@import '../abstracts/variable';
+@import '../abstracts/mixin';
+
+/* products table */
 .table-header {
-  @include flex(row, start, space);
+  @include flex(row, end, space);
   border-bottom: 1px solid $gray300;
   ul {
     @include flex(row, start, start);
@@ -8,23 +12,28 @@
       font-size: $body2;
       font-weight: 700;
       color: $gray500;
+      padding-bottom: 12px;
       &.active {
-        color: $black;
-        padding-bottom: 12px;
+        a { color: $black; }
         border-bottom: 3px solid $primary-color;
+      }
+      a {
+        color: $gray500;
       }
     }
   }
-  .check-del {
-    button {
-      font-size: $body3;
-      height: auto;
-      padding: 4px 6px;
-    }
+  select {
+    width: 72px;
+    height: 30px;
+    padding: 6px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    border: 1px solid $gray400;
   }
+  .all-view { margin-bottom: 16px;}
 }
 
-/* item */
+/* products table list */
 .list {
   padding: 16px 0;
   border-bottom: 1px solid $gray200;
@@ -43,18 +52,11 @@
   }
   &__d-day {
     font-size: $body2;
-    color: $primary-color;
+    color: $gray500;
     font-weight: 700;
     padding-right: 12px;
-  }
-  &__btn {
-    button {
-      font-size: $body3;
-      height: auto;
-      padding: 4px 6px;
-      &:last-child {
-        margin-left: 4px;
-      }
+    &.impending {
+      color: $primary-color;
     }
   }
 }

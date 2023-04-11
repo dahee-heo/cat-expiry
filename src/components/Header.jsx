@@ -1,31 +1,57 @@
 import React, { useEffect, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { users } from '../states/userState';
-import { countSelector } from '../states/itemsState';
+// import { countSelector } from '../states/itemsState';
 import { ReactComponent as Logo } from '../assets/Logo.svg';
 import { Sidebar } from './MypageModal';
 import { useNavigate } from 'react-router-dom';
 import { ArrowBackIos } from '@material-ui/icons';
+import i18n from '../config/lang/i18n';
 
 const Header = () => {
   const [loginUser, setLoginUser] = useRecoilState(users)
   const [loginView, setLoginView] = useState(false)
-  const expireCount = useRecoilValue(countSelector)
+  // const expireCount = useRecoilValue(countSelector)
   const [menuOpen, setMenuOpen] = useState(false)
   const handleOpen = () => setMenuOpen(true)
   const navigation = useNavigate()
+  const [openLng, setOpenLng] = useState(false)
+  let classActive = openLng ? "active" : "";
+  const [browserLang, setBrowserLang] = useState("KOR")
+
+  const locale = navigator.language; //현재 로컬 위치
+  localStorage.setItem("locale", locale)
+
+  const handleChangeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+    setOpenLng(false)
+    localStorage.setItem("language-mode", lang)
+    lang === "ko" ? setBrowserLang("KOR") : setBrowserLang("ENG")
+  }
+
+  useEffect(()=>{
+    locale === "ko" || "ko-KR" 
+      ? i18n.changeLanguage("ko") 
+      : i18n.changeLanguage("en");
+  }, [])
 
   return (
     <>
       <div className='header'>
         <div className='header__wrap'>
           <h1><Logo/></h1>
-          <div className='global'>
-            <div className=''>
-              <img src="" alt="" /> KOR <span></span></div>
+          <div 
+            className={`global ${classActive}`} 
+          >
+            <div className='' onClick={() => setOpenLng(!openLng)}>
+              {browserLang} <span className='arrow'></span></div>
             <ul className='slide'>
-              <li><img src={'../assets/kor.png'} alt="" /> KOR</li>
-              <li><img src="" alt="" /> ENG</li>
+              <li onClick={()=>handleChangeLanguage("ko")}>
+                KOR
+              </li>
+              <li onClick={()=>handleChangeLanguage("en")}>
+                ENG
+              </li>
             </ul>
           </div>
         </div>

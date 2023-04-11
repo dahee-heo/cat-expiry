@@ -4,12 +4,12 @@ import { useState } from "react";
 function usePagination(data, listView) {
 
   const [currentPage, setCurrentPage] = useState(1);
-  const maxPage = Math.ceil(data.length / listView);
+  const maxPage = Math.ceil(data?.length / listView);
 
   function currentData() {
     const start = (currentPage - 1) * listView;
     const end = start + listView;
-    return data.slice(start, end);
+    return data?.slice(start, end);
   }
 
   function next() {
@@ -25,9 +25,7 @@ function usePagination(data, listView) {
     setCurrentPage(currentPage => Math.min(pageNumber, maxPage));
   }
 
-
   return { next, prev, jump, currentData, currentPage, maxPage }
-
 }
 
 export default usePagination;

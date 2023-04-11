@@ -2,9 +2,6 @@
 @import '../abstracts/mixin';
 
 
-.section__des {
-  @include flex(row, end, space);
-}
 .card-list {
   width: 100%;
   height: 140px;
@@ -36,6 +33,11 @@
       box-shadow: 3px 3px 12px $gray300;
       border-radius: 10px;
       overflow: hidden;
+      &.zero { 
+        p { 
+          &:first-child { color: $gray400; }
+        }
+      }
       p {
         &:first-child {
           font-size: $heading2;
@@ -45,6 +47,7 @@
         &:last-child {
           font-size: $body2;
           color: $gray600;
+          word-wrap: break-word;
         }
       }
     }

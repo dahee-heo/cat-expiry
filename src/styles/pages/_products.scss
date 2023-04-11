@@ -1,4 +1,4 @@
-.bookmark {
+.products {
   form {
     position: relative;
     input {
@@ -6,8 +6,8 @@
       height: 45px;
       border-radius: 5px;
       border: 1px solid $gray300;
+      padding: 0 10px;
       &::placeholder {
-        padding-left: 10px;
         font-size: $body2;
         color: $gray400;
       }
@@ -17,6 +17,13 @@
       top: 2px;
       right: 8px;
       background: none;
+      span {
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: url('../../assets/search_icon.png') no-repeat center;
+        background-size: cover;
+      }
     }
 
   }

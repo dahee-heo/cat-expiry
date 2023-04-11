@@ -35,7 +35,27 @@
       font-size: $body2;
     }
   }
-
+  .input-name { position: relative; }
+  .auto-search {
+    position: absolute;
+    top: 68px;
+    z-index: 300;
+    max-height: 36vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 100%;
+    background-color: $white;
+    padding: 10px;
+    font-size: $body1;
+    border-radius: 5px;
+    border: 1px solid $gray300;
+    li {
+      padding: 8px 10px;
+      &:hover {
+        background-color: $gray100;
+      }
+    }
+  }
   // .select {
   //   background: none;
   //   font-size: $body2;

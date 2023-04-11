@@ -1,81 +1,119 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from "react-i18next";
-import { Button } from '../components/Button';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
-import { GroceryList } from '../components/GroceryList';
-import { RegistModal } from './Regist.page';
+import { ProductsTable } from '../components/ProductsTable';
+import { useQuery, useQueryClient } from 'react-query';
+import { getProducts } from '../service/products.service';
+import { Loading } from './Loading';
+import { Error } from './Error.page';
+import { ErrorAlert } from '../components/ErrorAlert';
 
-const Home = () => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+const Home = ({ uid }) => {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const [filter, setFilter] = useState("all");
+  const [sortType, setSortType] = useState("enter")
 
+  const { isLoading, isError, data, error } = useQuery(
+    ['products', filter, sortType], 
+    () =>  getProducts(uid, filter, sortType), 
+    {
+      refetchOnMount: true,
+      refetchOnWindowFocus: true,
+      enabled: true,
+      // initialData: () =>
+      // queryClient
+      // .getQueryData(['products']),
+    }
+  )
+
+  if (isLoading) { return <Loading />; }
+  if (isError) { return <ErrorAlert error={error} />; }
+
+  const dryCount = data.filter(ele => ele.category === "dry")
+  const wetCount = data.filter(ele => ele.category === "wet")
+  const snackCount = data.filter(ele => ele.category === "snack")
+  const nutritionCount = data.filter(ele => ele.category === "nutrition")
+  
+  const compare = (key) => (a, b) => {
+    return a[key] < b[key] ? 1 : a[key] > b[key] ? -1 : 0;
+  };
+
+  const dday = data.filter(ele => {
+    const date = new Date(ele.expire)
+    const now = Date.now();
+    const diff = (date.getTime() - now) / 1000;
+    return diff < 60 * 60 * 24 * 7;
+  }).sort(compare("expire"))
+  
   return (
     <main>
       <section className='mt40'>
-        <div className='section__des mb20'>
-          <div>
-            <h2 className='title mb4'>D-day</h2>
-            <p className='sub'>유통기한 임박한 제품이 있어요!</p>
-          </div>
-          <div>
-            <p className='all-view'>전체보기</p>
-          </div>
-        </div>
-        <div className='sction__contents'>
-          <div className='card-list'>
-            <div className='card-container'>
-              <Card/>
-              <Card/>
-              <Card/>
+      { dday.length ? ( 
+        <>
+          <div className='section__des mb20'>
+            <div>
+              <h2 className='title mb4'>{t("dday.title")}</h2>
+              <p className='sub'>{t("dday.description")}</p>
             </div>
           </div>
-        </div>
+          <div className='sction__contents'>
+            <div className='card-list'>
+              <div className='card-container'>
+                {dday.map((ele) => {
+                  return (
+                    <Card data={ele}/>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        </>
+        ) : null }
       </section>
       <section className='mt40'>
         <div className='section__des mb20'>
           <div>
-            <h2 className='title'>Now</h2>
-            <p className='sub'>지금 보관중인 제품을 확인해보세요.</p>
+            <h2 className='title'>{t("now.title")}</h2>
+            <p className='sub'>{t("now.description")}</p>
           </div>
         </div>
         <div className='sction__contents'>
           <div className='item-wrap'>
             <ul>
-              <li>
-                <p>2</p>
-                <p>건식사료</p>
+              <li className={dryCount.length === 0 ? "zero" : ""}>
+                <p>{dryCount.length}</p>
+                <p>{t("dry")}</p>
               </li>
-              <li>
-                <p>10</p>
-                <p>습식사료</p>
+              <li className={wetCount.length === 0 ? "zero" : ""}>
+                <p>{wetCount.length}</p>
+                <p>{t("wet")}</p>
               </li>
-              <li>
-                <p>0</p>
-                <p>간식</p>
+              <li className={snackCount.length === 0 ? "zero" : ""}>
+                <p>{snackCount.length}</p>
+                <p>{t("snack")}</p>
               </li>
-              <li>
-                <p>2</p>
-                <p>영양제</p>
+              <li className={nutritionCount.length === 0 ? "zero" : ""}>
+                <p>{nutritionCount.length}</p>
+                <p>{t("nutrition")}</p>
               </li>
             </ul>
           </div>
           <div className='list-wrap mt40'>
-            <GroceryList/>
+            <ProductsTable
+              data={data.slice(0,5)} 
+              filter={filter}
+              setFilter={setFilter}
+              setSortType={setSortType}
+            />
           </div>
         </div>
       </section>
-      <div className='mt40'>
-        <Button 
-          width="100%" 
-          type="primary" 
-          onClick={handleOpen} 
-          text="등록하기"
-        />
-      </div>
     </main>
   )
+
 }
 
 export default Home

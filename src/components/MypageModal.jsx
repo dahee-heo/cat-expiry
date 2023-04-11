@@ -8,13 +8,14 @@ import { countSelector } from '../states/itemsState';
 import { CheckCircleOutline, HelpOutline, MailOutline } from '@material-ui/icons';
 import { Modal, Box } from '@mui/material'
 import { Google } from '@mui/icons-material';
+import { useTranslation } from "react-i18next";
 
 
 export const MypageModal = ({open, setMenuOpen, handleClose}) => {
   const [loginUser, setLoginUser] = useRecoilState(users)
   const [loginView, setLoginView] = useState(false)
-  const expireCount = useRecoilValue(countSelector)
   const navigate = useNavigate()
+  const { t } = useTranslation();
 
   useEffect(() => {
     onAuthStateChanged()
@@ -62,24 +63,24 @@ export const MypageModal = ({open, setMenuOpen, handleClose}) => {
               <ul className={`account__wrap${loginView ? ' active' : ''}`}>
                 {loginUser.uid
                   ? <>
-                      <li className='account__name'><span>{loginUser.displayName || '게스트'}</span>님 안녕하세요.</li>
-                      <li className='logout' onClick={() => googleLogout()}>로그아웃</li>
+                      <li className='account__name'><span>{loginUser.displayName || `${t("guest")}`}</span></li>
+                      <li className='logout' onClick={() => googleLogout()}>{t("mypage.logout")}</li>
                     </>
-                  : <li>로그인 해주세요.</li>
+                  : <li>{t("mypage.pleaseLogin")}</li>
                 }
               </ul>
             </div>
             {loginUser.uid
                   ? <div className='mypage-list pt20'>
                       <ul>
-                        <NavLink to="/empty"><li><HelpOutline/> 도움말</li></NavLink>
-                        <NavLink to="/empty"><li><CheckCircleOutline/> 앱 정보</li></NavLink>
+                        <NavLink to="/empty"><li><HelpOutline/>{t("mypage.help")}</li></NavLink>
+                        <NavLink to="/empty"><li><CheckCircleOutline/>{t("mypage.appInfo")}</li></NavLink>
                       </ul>
                     </div>
                   : <div className='social'>
                       <ul>
-                        <li onClick={googleLogin}><Google/> 구글 계정으로 로그인</li>
-                        <li onClick={guestLogin}><MailOutline/> 게스트로 로그인</li>
+                        <li onClick={googleLogin}><Google/>{t("mypage.loginGoogle")}</li>
+                        <li onClick={guestLogin}><MailOutline/>{t("mypage.loginGuest")}</li>
                       </ul>
                     </div> 
                 }
