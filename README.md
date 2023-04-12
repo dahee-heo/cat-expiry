@@ -1,70 +1,82 @@
-# Getting Started with Create React App
+# 🐱Cat-expiry
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+------
 
-## Available Scripts
+#### **고양이 식료품 유통기한 관리 서비스**
 
-In the project directory, you can run:
+<img width="320px" src="https://user-images.githubusercontent.com/84456131/231385151-2f5a8bc2-c20e-4a5e-965f-23cbeab4d8dd.png">
 
-### `npm start`
+## 프로젝트 소개
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+------
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### 반려묘의 식량들을 편하게 관리할 수 있는 서비스입니다.
 
-### `npm test`
+- UX를 고려하여 유통기한 임박한 제품들을 prograss bar 등 **직관적인 인터페이스**로 구현
+- 제품 **정보 및 유통기한 만료일**을 등록하여 **리스트**로 관리
+- **자주 구입**하는 제품은 즐겨찾기로 등록하여 사용할 수 있는 **북마크 기능**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 프로젝트 정보
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+------
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### 🔗 링크
 
-### `npm run eject`
+- https://cat-expiry.web.app/
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### 🗓 개발 기간
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- v1 - 2021.01 ~ 
+- v2 - 2023.03 ~ 2023.04
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### 🛠 사용 기술
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- React
+- Firebase
+- Recoil
+- React-query
+- SCSS
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 프로젝트 기능
 
-### Code Splitting
+------
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+#### 
 
-### Analyzing the Bundle Size
+| Home                                                         |
+| ------------------------------------------------------------ |
+|                                                              |
+| · 카드와 카테고리별 개수 블럭, Summary 테이블 등으로 등록된 제품 **한눈에 파악** 가능<br />· 유통기한이 **임박한 제품**은 카드형식으로 노출, prograss bar로 **직관적인 UI** 구현<br />· Header 상단에 **다국어모드** 토글 버튼 구현 |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+| Product                                                      |
+| ------------------------------------------------------------ |
+| <img width="320px" src="https://user-images.githubusercontent.com/84456131/231380223-ac423b21-d3fd-4ec6-9120-c90d41a271d3.gif"> |
+| · 등록된 제품 **검색** 기능<br />· 제품 **수정** 및 **삭제** 기능<br />· 유통기한 임박한 제품들만 따로 확인할 수 있는 탭 메뉴 **필터 기능** 구현<br />· 이름, 등록일, 유통기한일 별로 **정렬**할 수 있는 기능 구현 |
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+| Regist                                                       |
+| ------------------------------------------------------------ |
+| <img width="320px" src="https://user-images.githubusercontent.com/84456131/231380197-4b4b4e71-8ea1-4088-b07c-1f77a7316fcd.gif"> |
+| · 제품 **등록** 기능<br /> · 북마크로 등록해놓은 제품들은 제품명 입력 시 **자동완성 기능** 구현 |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+#### 
 
-### `npm run build` fails to minify
+| Bookmark                                                     |
+| ------------------------------------------------------------ |
+| <img width="320px" src="https://user-images.githubusercontent.com/84456131/231380239-b717a11f-c610-4f79-87ac-a29acdba24e2.gif"> |
+| · 자주 구입하는 제품 등록/수정/삭제 할 수 있는 기능<br />· **제품명 정렬** 탭메뉴 기능 구현<br />· 편리하게 여러개를 삭제할 수 있는 선택 삭제 기능 구현 |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### 
+
+| My page                                                      |
+| ------------------------------------------------------------ |
+| <img width="320px" src="https://user-images.githubusercontent.com/84456131/231387460-00bf806f-b15b-49ce-b576-20d918b6a1fe.gif"> |
+| · 로그인/로그아웃<br />· 구글 로그인 기능                    |
+
