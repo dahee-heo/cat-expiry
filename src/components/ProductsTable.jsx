@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from "react-i18next";
 import { NavLink, useSearchParams } from 'react-router-dom';
-import { itemsRead } from '../service/items.service';
 import { ProductsTableList } from './ProductsTableList';
 
 export const ProductsTable = ({ data, handleDelete, filter, setFilter, setSortType }) => {

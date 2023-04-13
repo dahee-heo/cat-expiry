@@ -36,7 +36,7 @@ export const ProductsTableList = ({ data, handleDelete }) => {
 
   return (
     <>
-      <div className='list'>
+      <div className='list' key={data.key}>
         <div className='list__info'>
           <h3 className='item-name mb4'>{data.name}</h3>
           <p className='item-day'>{data.enter} ~ {data.expire}</p>
