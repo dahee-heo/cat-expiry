@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { googleLogin, googleLogout, guestLogin } from '../service/login.service';
+import { googleLogin, logout, guestLogin } from '../service/login.service';
 import { authService } from '../firebase';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { users } from '../states/userState';
-import { countSelector } from '../states/itemsState';
 import { CheckCircleOutline, HelpOutline, MailOutline } from '@material-ui/icons';
 import { Modal, Box } from '@mui/material'
 import { Google } from '@mui/icons-material';
 import { useTranslation } from "react-i18next";
-
 
 export const MypageModal = ({open, setMenuOpen, handleClose}) => {
   const [loginUser, setLoginUser] = useRecoilState(users)
@@ -17,35 +15,22 @@ export const MypageModal = ({open, setMenuOpen, handleClose}) => {
   const navigate = useNavigate()
   const { t } = useTranslation();
 
-  useEffect(() => {
-    onAuthStateChanged()
-  }, [])
-
-
   const handleClick = e => {
     e.preventDefault();
     setLoginView(!loginView)
   }
 
-  const onAuthStateChanged = () => {
-    authService.onAuthStateChanged(async firebaseUser => {
-      if (firebaseUser) {
-        setLoginUser({
-          displayName: firebaseUser.displayName,
-          email: firebaseUser.email,
-          uid: firebaseUser.uid
-        })
-      } else {
-        setLoginUser({
-          displayName: null,
-          email: null,
-          uid: null,
-        })
-        // if (window.location.pathname !== '/home') {
-        //   nav('/')
-        // }
-      }
-    })
+
+  const handleGuestLogin = async () => {
+    await guestLogin()
+    handleClose()
+    window.location.reload()
+  }
+
+  const handleLogout = () => {
+    logout()
+    navigate('/home')
+    window.location.reload()
   }
 
   return (
@@ -64,7 +49,7 @@ export const MypageModal = ({open, setMenuOpen, handleClose}) => {
                 {loginUser.uid
                   ? <>
                       <li className='account__name'><span>{loginUser.displayName || `${t("guest")}`}</span></li>
-                      <li className='logout' onClick={() => googleLogout()}>{t("mypage.logout")}</li>
+                      <li className='logout' onClick={handleLogout}>{t("mypage.logout")}</li>
                     </>
                   : <li>{t("mypage.pleaseLogin")}</li>
                 }
@@ -80,7 +65,7 @@ export const MypageModal = ({open, setMenuOpen, handleClose}) => {
                   : <div className='social'>
                       <ul>
                         <li onClick={googleLogin}><Google/>{t("mypage.loginGoogle")}</li>
-                        <li onClick={guestLogin}><MailOutline/>{t("mypage.loginGuest")}</li>
+                        <li onClick={handleGuestLogin}><MailOutline/>{t("mypage.loginGuest")}</li>
                       </ul>
                     </div> 
                 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { BookmarksTable } from '../components/BookmarksTable';
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { deleteBookmarks, getBookmarks, postBookmarks } from '../service/bookmarks.service';
+import { getBookmarks, postBookmarks } from '../service/bookmarks.service';
 import { useNavigate } from 'react-router-dom';
 import { Loading } from './Loading';
 import { Box, Pagination } from '@mui/material';
@@ -20,7 +20,6 @@ export const Bookmarks = ({ uid }) => {
   const queryClient = useQueryClient()
   const [page, setPage] = useState(1)
   const [filter, setFilter] = useState("enter");
-  console.log('filter: ', filter);
 
   const { isLoading, isError, data, error } = useQuery(
     ['bookmarks', filter], 
@@ -39,14 +38,7 @@ export const Bookmarks = ({ uid }) => {
     },
   })
 
-  const deleteBookmark = useMutation(
-    (deleteData) => deleteBookmarks(deleteData), 
-    {
-      onSuccess: (data, variables, context) => {
-        queryClient.invalidateQueries(['bookmarks']);
-      },
-    }
-  )
+  
 
   //페이지네이션
   const listNum = 10;
@@ -77,11 +69,7 @@ export const Bookmarks = ({ uid }) => {
     setInputData("")
   }
 
-  const handleDelete = (keyArray) => {
-    const deleteData = {keyArray, uid}
-    deleteBookmark.mutate(deleteData)
-  }
-
+  
   return (
     <main className="bookmark">
       <form className='mt20' onSubmit={(e) => e.preventDefault()}>
@@ -106,7 +94,7 @@ export const Bookmarks = ({ uid }) => {
         <div className='list-wrap mt40'>
           <BookmarksTable 
             data={pageData}
-            handleDelete={handleDelete}
+            // handleDelete={handleDelete}
             uid={uid}
             filter={filter}
             setFilter={setFilter}

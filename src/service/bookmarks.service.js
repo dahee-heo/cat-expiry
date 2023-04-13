@@ -30,8 +30,8 @@ export const patchBookmarks = async (params) => {
 }
 
 export const deleteBookmarks = async (params) => {
-  const promises = params.keyArray.map((id)=>{
-    axios.delete(`${hostUrl}/${params.uid}/bookmarks/${id}.json`);
+  const promises = await params.keyArray.map((id)=>{
+    return axios.delete(`${hostUrl}/${params.uid}/bookmarks/${id}.json`);
   });
   return Promise.all(promises);
   // const { data } = await axios.delete(`${hostUrl}/${params.uid}/bookmarks/${params.key}.json`)

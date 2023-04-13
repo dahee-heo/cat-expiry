@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from "react-i18next";
 import { NavLink, useSearchParams } from 'react-router-dom';
-import { itemsRead } from '../service/items.service';
 import { ProductsTableList } from './ProductsTableList';
 
-export const ProductsTable = ({ data, handleDelete, filter, setFilter, setSortType }) => {
+export const ProductsTable = ({ data, handleDelete, filter, setFilter, sortType, setSortType }) => {
   const [searchParams, setSearchParams] = useSearchParams('')
   const tableFilter = searchParams.get('filter');
   const selectRef = useRef();
@@ -32,7 +31,7 @@ export const ProductsTable = ({ data, handleDelete, filter, setFilter, setSortTy
           ><NavLink to='?filter=impending'>{t("impending")}</NavLink></li>
         </ul>
         <div>
-          <select onChange={(e)=>{ setSortType(e.target.value) }} ref={selectRef} defaultValue="enter" name="" id="">
+          <select onChange={(e)=>{ setSortType(e.target.value) }} ref={selectRef} defaultValue="enter" value={sortType} name="" id="">
             <option value="name">{t("sortAlphabet")}</option>
             <option value="enter">{t("sortRegistration")}</option>
             <option value="expire">{t("sortExpiration")}</option>

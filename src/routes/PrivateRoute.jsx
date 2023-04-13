@@ -3,7 +3,7 @@ import React from 'react';
 
  function PrivateRoute({ authenticated, component: Component }) {
    return (
-     authenticated ? Component : <Navigate to='/' {...alert("접근할 수 없는 페이지입니다.")} />
+     authenticated ? Component : <Navigate to='/' {...alert("로그인을 해주세요.")} />
    )
  }
 

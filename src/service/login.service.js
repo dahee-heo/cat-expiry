@@ -21,7 +21,7 @@ export const googleLogin = async () => {
   }
 }
 
-export const googleLogout = async () => {
+export const logout = async () => {
   await signOut(authService);
   return
 }

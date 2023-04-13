@@ -94,6 +94,7 @@ export const Products = ({ uid }) => {
             handleDelete={handleDelete}
             filter={filter}
             setFilter={setFilter}
+            sortType={sortType}
             setSortType={setSortType}
           />
     </div>
