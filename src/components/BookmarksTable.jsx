@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Button } from './Button';
 import { useTranslation } from "react-i18next";
 import { NavLink, useSearchParams } from 'react-router-dom';
-import { patchBookmarks } from '../service/bookmarks.service';
+import { deleteBookmarks, patchBookmarks } from '../service/bookmarks.service';
 import { BookmarksTableList } from './BookmarksTableList';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 
-export const BookmarksTable = ({ data, handleDelete, uid, filter, setFilter }) => {
+export const BookmarksTable = ({ data, uid, filter, setFilter }) => {
   const [searchParams, setSearchParams] = useSearchParams('')
   // const tableFilter = searchParams.get('filter');
   const { t } = useTranslation();
+  const queryClient = useQueryClient()
 
   const activeClass = (params) => {
     if (filter === params) {
@@ -25,6 +27,22 @@ export const BookmarksTable = ({ data, handleDelete, uid, filter, setFilter }) =
       checkedArray.push(key)
     }
   }
+
+  const deleteBookmark = useMutation(
+    (deleteData) => deleteBookmarks(deleteData), 
+    {
+      onSuccess: (data, variables, context) => {
+        console.log('data: ', data);
+        queryClient.invalidateQueries(['bookmarks']);
+      },
+    }
+  )
+
+  const handleDelete = (keyArray) => {
+    const deleteData = {keyArray, uid}
+    deleteBookmark.mutate(deleteData)
+  }
+
 
   return (
     <>
